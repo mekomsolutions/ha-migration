@@ -17,6 +17,10 @@ public class PatientIdentifier extends BaseData {
 	
 	@Getter
 	@Setter
+	private String identifierType;
+	
+	@Getter
+	@Setter
 	private String identifier;
 	
 }

@@ -17,6 +17,10 @@ public class PersonAttribute extends BaseData {
 	
 	@Getter
 	@Setter
+	private String attributeType;
+	
+	@Getter
+	@Setter
 	private String value;
 	
 }

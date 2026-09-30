@@ -13,6 +13,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.release>17</maven.compiler.release>
+        <encoding>UTF-8</encoding>
         <springBootVersion>4.1.0</springBootVersion>
         <mariadbConnectorVersion>3.5.8</mariadbConnectorVersion>
         <liquibaseVersion>4.25.1</liquibaseVersion>

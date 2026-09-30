@@ -59,7 +59,7 @@ public class PatientRow {
 	@Getter
 	@Setter
 	@JsonProperty("etnia")
-	private PersonAttribute ethinicity;
+	private PersonAttribute ethnicity;
 	
 	@Getter
 	@Setter
@@ -113,11 +113,6 @@ public class PatientRow {
 	
 	@Getter
 	@Setter
-	@JsonProperty("direccion")
-	private PersonAttribute directions;
-	
-	@Getter
-	@Setter
 	@JsonProperty("pais")
 	private String country;
 	
@@ -135,5 +130,10 @@ public class PatientRow {
 	@Setter
 	@JsonProperty("canton")
 	private String city;
+	
+	@Getter
+	@Setter
+	@JsonProperty("direccion")
+	private String directions;
 	
 }
