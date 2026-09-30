@@ -13,23 +13,26 @@ package net.mekomsolutions.ha.migration;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.mekomsolutions.ha.migration.model.GovtIdentifier;
 import net.mekomsolutions.ha.migration.model.PatientIdentifier;
+import net.mekomsolutions.ha.migration.model.PersonAddress;
 import net.mekomsolutions.ha.migration.model.PersonAttribute;
 
 public class PatientRow {
 	
 	@Getter
 	@Setter
-	@JsonProperty("codigousuario")
-	private PatientIdentifier identifier;
+	@JsonUnwrapped
+	private PatientIdentifier patientId;
 	
 	@Getter
 	@Setter
-	@JsonProperty("dpi")
-	private PatientIdentifier governmentId;
+	@JsonUnwrapped
+	private GovtIdentifier govtId;
 	
 	@Getter
 	@Setter
@@ -114,26 +117,11 @@ public class PatientRow {
 	@Getter
 	@Setter
 	@JsonProperty("pais")
-	private String country;
+	private PersonAttribute countryOfOrigin;
 	
 	@Getter
 	@Setter
-	@JsonProperty("departamento")
-	private String department;
-	
-	@Getter
-	@Setter
-	@JsonProperty("municipio")
-	private String municipality;
-	
-	@Getter
-	@Setter
-	@JsonProperty("canton")
-	private String city;
-	
-	@Getter
-	@Setter
-	@JsonProperty("direccion")
-	private String directions;
+	@JsonUnwrapped
+	private PersonAddress address;
 	
 }

@@ -10,17 +10,16 @@
  */
 package net.mekomsolutions.ha.migration.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
-public class PatientIdentifier extends BaseData {
+public class PatientIdentifier extends Identifier {
 	
 	@Getter
 	@Setter
-	private String identifierType;
-	
-	@Getter
-	@Setter
+	@JsonProperty("codigousuario")
 	private String identifier;
 	
 }
