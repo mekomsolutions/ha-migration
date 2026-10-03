@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.mekomsolutions.ha.migration.model.GovtIdentifier;
 import net.mekomsolutions.ha.migration.model.PatientIdentifier;
 import net.mekomsolutions.ha.migration.model.PersonAddress;
 import net.mekomsolutions.ha.migration.model.PersonAttribute;
@@ -27,13 +26,17 @@ public class PatientRow {
 	
 	@Getter
 	@Setter
-	@JsonUnwrapped
+	@JsonProperty("codigousuario")
+	@JsonDeserialize(using = PatientIdentifierDeserializer.class)
+	@Identifier(typePropertyName = "identifier.uuid.id", preferred = true)
 	private PatientIdentifier patientId;
 	
 	@Getter
 	@Setter
-	@JsonUnwrapped
-	private GovtIdentifier govtId;
+	@JsonProperty("dpi")
+	@JsonDeserialize(using = PatientIdentifierDeserializer.class)
+	@Identifier(typePropertyName = "identifier.uuid.govt")
+	private PatientIdentifier govtId;
 	
 	@Getter
 	@Setter
