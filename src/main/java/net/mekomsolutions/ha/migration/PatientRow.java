@@ -116,11 +116,6 @@ public class PatientRow {
 	
 	@Getter
 	@Setter
-	@JsonProperty("pais")
-	private PersonAttribute countryOfOrigin;
-	
-	@Getter
-	@Setter
 	@JsonUnwrapped
 	private PersonAddress address;
 	

@@ -24,17 +24,22 @@ public class PersonAddress extends BaseData {
 	
 	@Getter
 	@Setter
-	@JsonProperty("municipio")
+	@JsonProperty("canton")
 	private String address2;
 	
 	@Getter
 	@Setter
-	@JsonProperty("canton")
+	@JsonProperty("municipio")
 	private String cityVillage;
 	
 	@Getter
 	@Setter
 	@JsonProperty("departamento")
 	private String stateProvince;
+	
+	@Getter
+	@Setter
+	@JsonProperty("pais")
+	private String country;
 	
 }
