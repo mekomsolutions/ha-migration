@@ -25,6 +25,10 @@ public class PatientIdentifier {
 	
 	@Getter
 	@Setter
+	private String patient;
+	
+	@Getter
+	@Setter
 	private boolean preferred;
 	
 }

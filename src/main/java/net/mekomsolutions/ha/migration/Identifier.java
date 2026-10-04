@@ -7,26 +7,21 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation used to mark a field as an identifier in the context of deserialization. This
- * annotation is typically used in conjunction with {@link PatientIdentifierDeserializer}
+ * annotation is typically used in conjunction with {@link IdentifierDeserializer}
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Identifier {
 	
 	/**
-	 * Retrieves the type property name associated with the identifier. This property is typically used
-	 * to categorize or provide additional context about the identifier type in scenarios such as
-	 * deserialization or metadata-based processing.
+	 * Specifies the application `property name to be used to look up the identifier type uuid.
 	 *
-	 * @return the type property name as a String.
+	 * @return the property name as a String.
 	 */
 	String typePropertyName();
 	
 	/**
-	 * Indicates whether this identifier is the preferred or primary identifier among multiple
-	 * identifiers. This property is used in scenarios where there are multiple identifiers associated
-	 * with the same context, and one needs to be marked as the preferred one for prioritization or
-	 * selection purposes. The default value is {@code false}.
+	 * Specifies whether the deserialized PatientIdentifier object should be marked as preferred or not.
 	 *
 	 * @return {@code true} if this identifier is the preferred one; {@code false} otherwise.
 	 */
