@@ -28,14 +28,14 @@ public class PatientRow {
 	@Setter
 	@JsonProperty("codigousuario")
 	@JsonDeserialize(using = IdentifierDeserializer.class)
-	@Identifier(typePropertyName = "identifier.type.uuid.id", preferred = true)
+	@Identifier(typePropertyName = Constants.PROP_ID_TYPE_ID, preferred = true)
 	private PatientIdentifier patientId;
 	
 	@Getter
 	@Setter
 	@JsonProperty("dpi")
 	@JsonDeserialize(using = IdentifierDeserializer.class)
-	@Identifier(typePropertyName = "identifier.type.uuid.govt")
+	@Identifier(typePropertyName = Constants.PROP_ID_TYPE_GOVT)
 	private PatientIdentifier govtId;
 	
 	@Getter

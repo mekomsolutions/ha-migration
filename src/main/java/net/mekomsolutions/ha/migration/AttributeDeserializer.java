@@ -15,29 +15,30 @@ import tools.jackson.databind.deser.std.StdDeserializer;
  */
 public class AttributeDeserializer extends StdDeserializer<PersonAttribute> {
 	
-	private final String attributeType;
+	private final String attributeTypeUuid;
 	
 	public AttributeDeserializer() {
 		this(null);
 	}
 	
-	public AttributeDeserializer(String attributeType) {
+	public AttributeDeserializer(String attributeTypeUuid) {
 		super(PersonAttribute.class);
-		this.attributeType = attributeType;
+		this.attributeTypeUuid = attributeTypeUuid;
 	}
 	
 	@Override
 	public ValueDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) {
 		Attribute annotation = property.getAnnotation(Attribute.class);
-		final String type = annotation.typePropertyName();
-		return new AttributeDeserializer(type);
+		final String propName = annotation.typePropertyName();
+		//TODO Get uuid  by reading property value
+		return new AttributeDeserializer(propName);
 	}
 	
 	@Override
 	public PersonAttribute deserialize(JsonParser p, DeserializationContext ctxt) {
 		PersonAttribute attribute = new PersonAttribute();
 		attribute.setValue(p.getText());
-		attribute.setPersonAttributeType(attributeType);
+		attribute.setPersonAttributeType(Constants.ATTRIB_TYPE_CLASS_NAME + "(" + attributeTypeUuid + ")");
 		return attribute;
 	}
 	

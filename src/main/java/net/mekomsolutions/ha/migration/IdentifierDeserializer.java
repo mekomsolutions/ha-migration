@@ -15,7 +15,7 @@ import tools.jackson.databind.deser.std.StdDeserializer;
  */
 public class IdentifierDeserializer extends StdDeserializer<PatientIdentifier> {
 	
-	private final String identifierType;
+	private final String idTypeUuid;
 	
 	private final boolean preferred;
 	
@@ -23,24 +23,25 @@ public class IdentifierDeserializer extends StdDeserializer<PatientIdentifier> {
 		this(null, false);
 	}
 	
-	public IdentifierDeserializer(String identifierType, boolean preferred) {
+	public IdentifierDeserializer(String idTypeUuid, boolean preferred) {
 		super(PatientIdentifier.class);
-		this.identifierType = identifierType;
+		this.idTypeUuid = idTypeUuid;
 		this.preferred = preferred;
 	}
 	
 	@Override
 	public ValueDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) {
 		Identifier annotation = property.getAnnotation(Identifier.class);
-		final String type = annotation.typePropertyName();
-		return new IdentifierDeserializer(type, annotation.preferred());
+		final String propName = annotation.typePropertyName();
+		//TODO Get uuid  by reading property value
+		return new IdentifierDeserializer(propName, annotation.preferred());
 	}
 	
 	@Override
 	public PatientIdentifier deserialize(JsonParser p, DeserializationContext ctxt) {
 		PatientIdentifier id = new PatientIdentifier();
 		id.setIdentifier(p.getText());
-		id.setIdentifierType(identifierType);
+		id.setIdentifierType(Constants.ID_TYPE_CLASS_NAME + "(" + idTypeUuid + ")");
 		id.setPreferred(preferred);
 		return id;
 	}
