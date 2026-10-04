@@ -22,7 +22,7 @@ import net.mekomsolutions.ha.migration.model.PersonAddress;
 import net.mekomsolutions.ha.migration.model.PersonAttribute;
 import tools.jackson.databind.annotation.JsonDeserialize;
 
-public class PatientRow {
+public class PatientData {
 	
 	@Getter
 	@Setter
