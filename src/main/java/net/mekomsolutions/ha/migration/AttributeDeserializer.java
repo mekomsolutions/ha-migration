@@ -1,5 +1,7 @@
 package net.mekomsolutions.ha.migration;
 
+import org.springframework.core.env.Environment;
+
 import net.mekomsolutions.ha.migration.model.PersonAttribute;
 import tools.jackson.core.JsonParser;
 import tools.jackson.databind.BeanProperty;
@@ -14,6 +16,8 @@ import tools.jackson.databind.deser.std.StdDeserializer;
  * properties annotated with {@link Identifier}.
  */
 public class AttributeDeserializer extends StdDeserializer<PersonAttribute> {
+	
+	private static Environment env;
 	
 	private final String attributeTypeUuid;
 	
@@ -30,8 +34,11 @@ public class AttributeDeserializer extends StdDeserializer<PersonAttribute> {
 	public ValueDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) {
 		Attribute annotation = property.getAnnotation(Attribute.class);
 		final String propName = annotation.typePropertyName();
-		//TODO Get uuid  by reading property value
-		return new AttributeDeserializer(propName);
+		if (env == null) {
+			env = Context.getBean(Environment.class);
+		}
+		
+		return new AttributeDeserializer(env.getProperty(propName));
 	}
 	
 	@Override

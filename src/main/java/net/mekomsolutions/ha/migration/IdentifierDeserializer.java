@@ -1,5 +1,7 @@
 package net.mekomsolutions.ha.migration;
 
+import org.springframework.core.env.Environment;
+
 import net.mekomsolutions.ha.migration.model.PatientIdentifier;
 import tools.jackson.core.JsonParser;
 import tools.jackson.databind.BeanProperty;
@@ -14,6 +16,8 @@ import tools.jackson.databind.deser.std.StdDeserializer;
  * properties annotated with {@link Identifier}.
  */
 public class IdentifierDeserializer extends StdDeserializer<PatientIdentifier> {
+	
+	private static Environment env;
 	
 	private final String idTypeUuid;
 	
@@ -33,8 +37,11 @@ public class IdentifierDeserializer extends StdDeserializer<PatientIdentifier> {
 	public ValueDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) {
 		Identifier annotation = property.getAnnotation(Identifier.class);
 		final String propName = annotation.typePropertyName();
-		//TODO Get uuid  by reading property value
-		return new IdentifierDeserializer(propName, annotation.preferred());
+		if (env == null) {
+			env = Context.getBean(Environment.class);
+		}
+		
+		return new IdentifierDeserializer(env.getProperty(propName), annotation.preferred());
 	}
 	
 	@Override
