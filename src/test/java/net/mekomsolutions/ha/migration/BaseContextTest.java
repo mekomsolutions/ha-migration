@@ -26,8 +26,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @SpringBootTest(classes = { TestConfig.class })
 @TestExecutionListeners(DependencyInjectionTestExecutionListener.class)
 @TestPropertySource(properties = Constants.PROP_USER_UUID + "=test-user-uuid")
-@TestPropertySource(properties = Constants.PROP_ID_TYPE_ID + "=type-uuid-1")
-@TestPropertySource(properties = Constants.PROP_ID_TYPE_GOVT + "=type-uuid-2")
+@TestPropertySource(properties = Constants.PROP_ID_TYPE_UUID_ID + "=type-uuid-1")
+@TestPropertySource(properties = Constants.PROP_ID_TYPE_UUID_GOVT + "=type-uuid-2")
 public abstract class BaseContextTest {
 	
 	@Autowired

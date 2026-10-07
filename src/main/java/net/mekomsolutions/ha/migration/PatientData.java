@@ -28,14 +28,14 @@ public class PatientData {
 	@Setter
 	@JsonProperty("codigousuario")
 	@JsonDeserialize(using = IdentifierDeserializer.class)
-	@Identifier(typePropertyName = Constants.PROP_ID_TYPE_ID, preferred = true)
+	@Identifier(typePropertyName = Constants.PROP_ID_TYPE_UUID_ID, preferred = true)
 	private PatientIdentifier patientId;
 	
 	@Getter
 	@Setter
 	@JsonProperty("dpi")
 	@JsonDeserialize(using = IdentifierDeserializer.class)
-	@Identifier(typePropertyName = Constants.PROP_ID_TYPE_GOVT)
+	@Identifier(typePropertyName = Constants.PROP_ID_TYPE_UUID_GOVT)
 	private PatientIdentifier govtId;
 	
 	@Getter
@@ -68,77 +68,77 @@ public class PatientData {
 	@Setter
 	@JsonProperty("etnia")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.ethnicity")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_ETHNICITY)
 	private PersonAttribute ethnicity;
 	
 	@Getter
 	@Setter
 	@JsonProperty("estadocivil")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.marital.status")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_MARITAL_STATUS)
 	private PersonAttribute maritalStatus;
 	
 	@Getter
 	@Setter
 	@JsonProperty("telefono")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.phone")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_PHONE)
 	private PersonAttribute phone;
 	
 	@Getter
 	@Setter
 	@JsonProperty("lugarnacimiento")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.birth.place")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_BIRTH_PLACE)
 	private PersonAttribute birthPlace;
 	
 	@Getter
 	@Setter
 	@JsonProperty("nombreconyugue")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.spouse")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_SPOUSE)
 	private PersonAttribute spouse;
 	
 	@Getter
 	@Setter
 	@JsonProperty("nombrepadre")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.father")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_FATHER)
 	private PersonAttribute father;
 	
 	@Getter
 	@Setter
 	@JsonProperty("nombremadre")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.mother")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_MOTHER)
 	private PersonAttribute mother;
 	
 	@Getter
 	@Setter
 	@JsonProperty("igss")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.igss")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_IGSS)
 	private PersonAttribute igss;
 	
 	@Getter
 	@Setter
 	@JsonProperty("emergenciaavisara")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.emergency.contact")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_EMERGENCY_CONTACT)
 	private PersonAttribute emergencyContact;
 	
 	@Getter
 	@Setter
 	@JsonProperty("telefonoavisar")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.emergency.phone")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_EMERGENCY_PHONE)
 	private PersonAttribute emergencyPhone;
 	
 	@Getter
 	@Setter
 	@JsonProperty("ocupacion")
 	@JsonDeserialize(using = AttributeDeserializer.class)
-	@Attribute(typePropertyName = "attribute.type.uuid.occupation")
+	@Attribute(typePropertyName = Constants.PROP_ATTR_TYPE_UUID_OCCUPATION)
 	private PersonAttribute occupation;
 	
 	@Getter
