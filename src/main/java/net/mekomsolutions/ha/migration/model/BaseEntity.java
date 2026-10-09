@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class BaseData {
+public abstract class BaseEntity {
 	
 	@Getter
 	@Setter

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import tools.jackson.databind.json.JsonMapper;
 
 @Slf4j
-public class ParserUtils {
+public class OffsetUtils {
 	
 	private static Path offsetPath;
 	

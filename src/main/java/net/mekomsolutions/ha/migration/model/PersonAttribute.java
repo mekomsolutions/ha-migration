@@ -3,7 +3,7 @@ package net.mekomsolutions.ha.migration.model;
 import lombok.Getter;
 import lombok.Setter;
 
-public class PersonAttribute extends BaseData {
+public class PersonAttribute extends BaseEntity {
 	
 	@Getter
 	@Setter

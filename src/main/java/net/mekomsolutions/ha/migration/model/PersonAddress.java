@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-public class PersonAddress extends BaseData {
+public class PersonAddress extends BaseEntity {
 	
 	@Getter
 	@Setter
