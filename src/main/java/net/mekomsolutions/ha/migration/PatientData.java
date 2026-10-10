@@ -52,7 +52,7 @@ public class PatientData {
 	@Setter
 	@JsonProperty("fechanacimiento")
 	@JsonDeserialize(using = BirthDateDeserializer.class)
-	private LocalDate birthDate;
+	private LocalDate birthdate;
 	
 	@Getter
 	@Setter
