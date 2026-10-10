@@ -1,4 +1,4 @@
-package net.mekomsolutions.ha.migration;
+package net.mekomsolutions.ha.migration.data;
 
 import java.time.LocalDate;
 
@@ -7,6 +7,12 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.mekomsolutions.ha.migration.Attribute;
+import net.mekomsolutions.ha.migration.AttributeDeserializer;
+import net.mekomsolutions.ha.migration.BirthDateDeserializer;
+import net.mekomsolutions.ha.migration.Constants;
+import net.mekomsolutions.ha.migration.Identifier;
+import net.mekomsolutions.ha.migration.IdentifierDeserializer;
 import net.mekomsolutions.ha.migration.model.PatientIdentifier;
 import net.mekomsolutions.ha.migration.model.PersonAddress;
 import net.mekomsolutions.ha.migration.model.PersonAttribute;
@@ -31,7 +37,7 @@ public class PatientData {
 	@Getter
 	@Setter
 	@JsonProperty("nombre")
-	private String firstName;
+	private String givenName;
 	
 	@Getter
 	@Setter

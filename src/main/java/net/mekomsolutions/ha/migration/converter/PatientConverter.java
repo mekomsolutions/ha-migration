@@ -3,9 +3,12 @@ package net.mekomsolutions.ha.migration.converter;
 import java.time.LocalDateTime;
 
 import net.mekomsolutions.ha.migration.Constants;
-import net.mekomsolutions.ha.migration.PatientData;
+import net.mekomsolutions.ha.migration.data.PatientData;
 import net.mekomsolutions.ha.migration.model.Patient;
 
+/**
+ * Converts a {@link Patient} object from a {@link PatientData} object.
+ */
 public class PatientConverter extends BaseConverter<PatientData, Patient> {
 	
 	@Override
