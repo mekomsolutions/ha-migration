@@ -34,7 +34,7 @@ public class OffsetUtils {
 	 *
 	 * @return row number
 	 */
-	public static Integer getLastProcessedRowNumber() {
+	public static Integer getLastProcessedRowNumber(String type) {
 		log.info("Loading row number that was last processed");
 		
 		try {
@@ -48,8 +48,8 @@ public class OffsetUtils {
 				}
 				
 				//TODO Verify hash
-				Map<String, Object> map = MAPPER.readValue(data, Map.class);
-				rowNumber = (Integer) map.get("rowNumber");
+				Map<String, Map<String, Object>> map = MAPPER.readValue(data, Map.class);
+				rowNumber = (Integer) map.get(type).get("rowNumber");
 			}
 			
 			log.info("Found last processed row number: {}", rowNumber);
