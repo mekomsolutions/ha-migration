@@ -7,12 +7,12 @@ import net.mekomsolutions.ha.migration.data.PatientData;
 import net.mekomsolutions.ha.migration.model.Patient;
 
 /**
- * Converts a {@link Patient} object from a {@link PatientData} object.
+ * Generator of a {@link Patient} object from a {@link PatientData} object.
  */
-public class PatientConverter extends BaseConverter<PatientData, Patient> {
+public class PatientGenerator extends BaseGenerator<PatientData, Patient> {
 	
 	@Override
-	public Patient convert(PatientData data, LocalDateTime date) {
+	public Patient generate(PatientData data, LocalDateTime date) {
 		Patient patient = new Patient();
 		patient.setGender(data.getGender());
 		patient.setBirthdate(data.getBirthdate());
