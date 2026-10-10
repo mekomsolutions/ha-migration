@@ -12,11 +12,4 @@ import net.mekomsolutions.ha.migration.model.BaseEntity;
  * @param <S> the source type to be converted
  * @param <T> the target type to which the source will be converted; must extend {@link BaseEntity}
  */
-public abstract class BaseConverter<S, T extends BaseEntity> implements Converter<S, T> {
-	
-	@Override
-	public T convert(S data) {
-		return null;
-	}
-	
-}
+public abstract class BaseConverter<S, T extends BaseEntity> implements Converter<S, T> {}
