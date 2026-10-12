@@ -16,6 +16,7 @@ import net.mekomsolutions.ha.migration.IdentifierDeserializer;
 import net.mekomsolutions.ha.migration.model.PatientIdentifier;
 import net.mekomsolutions.ha.migration.model.PersonAddress;
 import net.mekomsolutions.ha.migration.model.PersonAttribute;
+import net.mekomsolutions.ha.migration.model.PersonName;
 import tools.jackson.databind.annotation.JsonDeserialize;
 
 public class PatientData {
@@ -36,18 +37,8 @@ public class PatientData {
 	
 	@Getter
 	@Setter
-	@JsonProperty("nombre")
-	private String givenName;
-	
-	@Getter
-	@Setter
-	@JsonProperty("nombre_secundario")
-	private String middleName;
-	
-	@Getter
-	@Setter
-	@JsonProperty("apellidos")
-	private String familyName;
+	@JsonUnwrapped
+	private PersonName name;
 	
 	@Getter
 	@Setter

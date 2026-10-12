@@ -1,4 +1,4 @@
-package net.mekomsolutions.ha.migration.converter;
+package net.mekomsolutions.ha.migration.generator;
 
 import java.time.LocalDateTime;
 

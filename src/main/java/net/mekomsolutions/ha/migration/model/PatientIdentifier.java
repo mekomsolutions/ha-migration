@@ -3,7 +3,7 @@ package net.mekomsolutions.ha.migration.model;
 import lombok.Getter;
 import lombok.Setter;
 
-public class PatientIdentifier {
+public class PatientIdentifier extends BaseEntity {
 	
 	@Getter
 	@Setter
