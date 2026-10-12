@@ -18,6 +18,17 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @TestPropertySource(properties = Constants.PROP_USER_UUID + "=test-user-uuid")
 @TestPropertySource(properties = Constants.PROP_ID_TYPE_UUID_ID + "=type-uuid-1")
 @TestPropertySource(properties = Constants.PROP_ID_TYPE_UUID_GOVT + "=type-uuid-2")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_ETHNICITY + "=")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_MARITAL_STATUS + "=")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_PHONE + "=")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_BIRTH_PLACE + "=")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_SPOUSE + "=")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_FATHER + "=")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_MOTHER + "=")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_IGSS + "=")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_EMERGENCY_CONTACT + "=")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_EMERGENCY_PHONE + "=")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_OCCUPATION + "=")
 public abstract class BaseContextTest {
 	
 	@Autowired

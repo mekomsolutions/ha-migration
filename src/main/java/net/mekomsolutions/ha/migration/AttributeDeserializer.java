@@ -1,5 +1,7 @@
 package net.mekomsolutions.ha.migration;
 
+import java.time.LocalDateTime;
+
 import org.springframework.core.env.Environment;
 
 import net.mekomsolutions.ha.migration.model.PersonAttribute;
@@ -46,6 +48,8 @@ public class AttributeDeserializer extends StdDeserializer<PersonAttribute> {
 		PersonAttribute attribute = new PersonAttribute();
 		attribute.setValue(p.getText());
 		attribute.setPersonAttributeType(Constants.ATTRIB_TYPE_CLASS_NAME + "(" + attributeTypeUuid + ")");
+		attribute.setCreator(Constants.DAEMON_USER_UUID);
+		attribute.setDateCreated((LocalDateTime) ctxt.getAttribute("date"));
 		return attribute;
 	}
 	
