@@ -2,6 +2,8 @@ package net.mekomsolutions.ha.migration;
 
 import java.nio.file.Path;
 
+import org.springframework.stereotype.Component;
+
 import tools.jackson.databind.MappingIterator;
 import tools.jackson.dataformat.csv.CsvMapper;
 import tools.jackson.dataformat.csv.CsvSchema;
@@ -10,6 +12,7 @@ import tools.jackson.dataformat.csv.CsvSchema;
  * Utility class for parsing CSV files into objects of a specified type. The class uses Jackson's
  * CsvMapper for handling the deserialization of CSV data.
  */
+@Component
 public class CsvParser {
 	
 	private static final CsvMapper MAPPER = CsvMapper.builder().build();

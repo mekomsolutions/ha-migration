@@ -9,12 +9,24 @@ package net.mekomsolutions.ha.migration.bootstrap;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+
+import net.mekomsolutions.ha.migration.CsvParser;
+import net.mekomsolutions.ha.migration.StartUpListener;
+import net.mekomsolutions.ha.migration.config.AppConfig;
 
 @SpringBootApplication
+@Import(AppConfig.class)
 public class Launcher {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Launcher.class, args);
+	}
+	
+	@Bean
+	public StartUpListener startupListener(CsvParser csvParser) {
+		return new StartUpListener(csvParser);
 	}
 	
 }
