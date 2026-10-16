@@ -12,9 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
-import net.mekomsolutions.ha.migration.CsvParser;
+import net.mekomsolutions.ha.migration.AppConfig;
+import net.mekomsolutions.ha.migration.Processor;
 import net.mekomsolutions.ha.migration.StartUpListener;
-import net.mekomsolutions.ha.migration.config.AppConfig;
 
 @SpringBootApplication
 @Import(AppConfig.class)
@@ -25,8 +25,8 @@ public class Launcher {
 	}
 	
 	@Bean
-	public StartUpListener startupListener(CsvParser csvParser) {
-		return new StartUpListener(csvParser);
+	public StartUpListener startupListener(Processor processor) {
+		return new StartUpListener(processor);
 	}
 	
 }

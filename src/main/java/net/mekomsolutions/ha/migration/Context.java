@@ -1,5 +1,7 @@
 package net.mekomsolutions.ha.migration;
 
+import java.util.Collection;
+
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -22,6 +24,15 @@ public class Context implements ApplicationContextAware {
 	 */
 	public static <T> T getBean(Class<T> clazz) {
 		return appContext.getBean(clazz);
+	}
+	
+	/**
+	 * Gets all beans matching the specified type from the application context
+	 *
+	 * @return list of beans matching the specified type
+	 */
+	public static <T> Collection<T> getBeans(Class<T> clazz) {
+		return appContext.getBeansOfType(clazz).values();
 	}
 	
 }
