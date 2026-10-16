@@ -1,4 +1,4 @@
-package net.mekomsolutions.ha.migration.generator;
+package net.mekomsolutions.ha.migration.converter;
 
 import java.time.LocalDateTime;
 
@@ -12,10 +12,10 @@ import net.mekomsolutions.ha.migration.model.Patient;
  * Generator of a {@link Patient} object from a {@link PatientData} object.
  */
 @Component
-public class PatientGenerator extends BaseGenerator<PatientData, Patient> {
+public class PatientRowConverter extends BaseRowConverter<PatientData, Patient> {
 	
 	@Override
-	public Patient generate(PatientData data, LocalDateTime date) {
+	public Patient convert(PatientData data, LocalDateTime date) {
 		Patient patient = new Patient();
 		patient.setGender(data.getGender());
 		patient.setBirthdate(data.getBirthdate());

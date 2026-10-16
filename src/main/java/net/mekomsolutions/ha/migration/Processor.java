@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
-import net.mekomsolutions.ha.migration.generator.BaseGenerator;
+import net.mekomsolutions.ha.migration.converter.BaseRowConverter;
 import net.mekomsolutions.ha.migration.model.BaseEntity;
 import tools.jackson.databind.MappingIterator;
 
@@ -33,10 +33,10 @@ public class Processor {
 	
 	public void process() {
 		MappingIterator<?> it = parseFile();
-		BaseGenerator generator = ProcessorUtils.getGenerator(type.getClazz());
+		BaseRowConverter converter = ProcessorUtils.getConverter(type.getClazz());
 		int count = 0;
 		while (it.hasNext()) {
-			BaseEntity e = convert(it.next(), LocalDateTime.now(), generator);
+			BaseEntity e = convert(it.next(), LocalDateTime.now(), converter);
 			sendBatch(List.of(e));
 			count++;
 		}
@@ -50,8 +50,8 @@ public class Processor {
 		return parser.parse(path, type.getClazz());
 	}
 	
-	protected BaseEntity convert(Object object, LocalDateTime date, BaseGenerator generator) {
-		return generator.generate(object, date);
+	protected BaseEntity convert(Object object, LocalDateTime date, BaseRowConverter converter) {
+		return converter.convert(object, date);
 	}
 	
 	protected void sendBatch(List<BaseEntity> entities) {
