@@ -5,13 +5,17 @@ import net.mekomsolutions.ha.migration.data.PatientData;
 
 public enum EntityType {
 	
-	PATIENT(PatientData.class);
+	PATIENT(PatientData.class, 16);
 	
 	@Getter
 	private Class<?> clazz;
 	
-	EntityType(Class<?> clazz) {
+	@Getter
+	private int itemCountPerRow;
+	
+	EntityType(Class<?> clazz, int itemCountPerRow) {
 		this.clazz = clazz;
+		this.itemCountPerRow = itemCountPerRow;
 	}
 	
 }

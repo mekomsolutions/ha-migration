@@ -1,14 +1,14 @@
 package net.mekomsolutions.ha.migration;
 
 import java.nio.file.Path;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
-import net.mekomsolutions.ha.migration.converter.BaseRowConverter;
+import net.mekomsolutions.ha.migration.itemizer.BaseRowItemizer;
 import net.mekomsolutions.ha.migration.model.BaseEntity;
 import tools.jackson.databind.MappingIterator;
 
@@ -33,11 +33,10 @@ public class Processor {
 	
 	public void process() {
 		MappingIterator<?> it = parseFile();
-		BaseRowConverter converter = ProcessorUtils.getConverter(type.getClazz());
+		BaseRowItemizer itemizer = ProcessorUtils.getItemizer(type.getClazz());
 		int count = 0;
 		while (it.hasNext()) {
-			BaseEntity e = convert(it.next(), LocalDateTime.now(), converter);
-			sendBatch(List.of(e));
+			sendBatch(null, type.getItemCountPerRow(), itemizer);
 			count++;
 		}
 		
@@ -50,11 +49,14 @@ public class Processor {
 		return parser.parse(path, type.getClazz());
 	}
 	
-	protected BaseEntity convert(Object object, LocalDateTime date, BaseRowConverter converter) {
-		return converter.convert(object, date);
-	}
-	
-	protected void sendBatch(List<BaseEntity> entities) {
+	protected void sendBatch(List<Object> rows, int entityCountPerRow, BaseRowItemizer itemizer) {
+		List<BaseEntity> entities = new ArrayList<>(rows.size() * entityCountPerRow);
+		for (Object row : rows) {
+			List<BaseEntity> items = itemizer.itemize(row);
+			entities.addAll(items);
+		}
+		
+		//TODO Send entities to activeQM
 	}
 	
 }
