@@ -25,6 +25,9 @@ public class Processor {
 	@Value("${" + Constants.ARG_FILE + "}")
 	private String file;
 	
+	@Value("${" + Constants.PROP_BATCH_SIZE + "}")
+	private int batchSize;
+	
 	private CsvParser parser;
 	
 	public Processor(CsvParser parser) {
@@ -32,15 +35,27 @@ public class Processor {
 	}
 	
 	public void process() {
-		MappingIterator<?> it = parseFile();
-		BaseRowItemizer itemizer = ProcessorUtils.getItemizer(type.getClazz());
-		int count = 0;
+		final MappingIterator<?> it = parseFile();
+		final BaseRowItemizer itemizer = ProcessorUtils.getItemizer(type.getClazz());
+		int totalCount = 0;
+		final List<Object> batch = new ArrayList<>(batchSize);
 		while (it.hasNext()) {
-			sendBatch(null, type.getItemCountPerRow(), itemizer);
-			count++;
+			final Object row = it.next();
+			batch.add(row);
+			if (batch.size() == batchSize) {
+				sendBatch(batch, type.getItemCountPerRow(), itemizer);
+				batch.clear();
+			}
+			
+			totalCount++;
 		}
 		
-		log.info("Processed {} items", count);
+		if (!batch.isEmpty()) {
+			sendBatch(batch, type.getItemCountPerRow(), itemizer);
+		}
+		
+		log.info("Processed {} items", totalCount);
+		//TODO Clear offset
 	}
 	
 	protected MappingIterator<?> parseFile() {
@@ -57,6 +72,8 @@ public class Processor {
 		}
 		
 		//TODO Send entities to activeQM
+		
+		//TODO Update offset
 	}
 	
 }

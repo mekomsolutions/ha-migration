@@ -8,6 +8,8 @@ public class Constants {
 	
 	public final static String PROP_DATA_FILE_DIR = "data.file.directory";
 	
+	public final static String PROP_BATCH_SIZE = "batch.size";
+	
 	public final static String PROP_USER_UUID = "openmrs.user.uuid";
 	
 	public final static String PROP_ID_TYPE_UUID_ID = "id.type.uuid.id";
@@ -43,7 +45,5 @@ public class Constants {
 	public static final String DAEMON_USER_UUID = "A4F30A1B-5EB9-11DF-A648-37A07F9C90FB";
 	
 	public final static String OFFSET_FILE = "offset.json";
-	
-	public final static String ENTITY_TYPE_PATIENT = "patient";
 	
 }
