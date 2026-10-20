@@ -9,6 +9,10 @@ public abstract class BaseEntity {
 	
 	@Getter
 	@Setter
+	private String uuid;
+	
+	@Getter
+	@Setter
 	private String creator;
 	
 	@Getter
