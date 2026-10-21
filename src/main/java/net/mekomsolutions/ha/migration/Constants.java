@@ -10,7 +10,9 @@ public class Constants {
 	
 	public final static String PROP_BATCH_SIZE = "batch.size";
 	
-	public final static String PROP_USER_UUID = "openmrs.user.uuid";
+	public final static String PROP_SYNC_SOURCE_ID = "sync.source.id";
+	
+	public final static String PROP_SYNC_QUEUE_NAME = "sync.queue.name";
 	
 	public final static String PROP_ID_TYPE_UUID_ID = "id.type.uuid.id";
 	
@@ -45,5 +47,19 @@ public class Constants {
 	public static final String DAEMON_USER_UUID = "A4F30A1B-5EB9-11DF-A648-37A07F9C90FB";
 	
 	public final static String OFFSET_FILE = "offset.json";
+	
+	public final static String DB_SYNC_VERSION = "4.0.0";
+	
+	public final static String DB_SYNC_OPERATION = "r";
+	
+	public final static String SYNC_CLASS_PATIENT = "org.openmrs.eip.dbsync.model.PatientModel";
+	
+	public final static String SYNC_CLASS_ID = "org.openmrs.eip.dbsync.model.PatientIdentifierModel";
+	
+	public final static String SYNC_CLASS_ADDRESS = "org.openmrs.eip.dbsync.entity.PersonAddres";
+	
+	public final static String SYNC_CLASS_ATTRIBUTE = "org.openmrs.eip.dbsync.entity.PersonAttribute";
+	
+	public final static String SYNC_CLASS_NAME = "org.openmrs.eip.dbsync.entity.PersonName";
 	
 }

@@ -28,6 +28,12 @@ public class Processor {
 	@Value("${" + Constants.PROP_BATCH_SIZE + "}")
 	private int batchSize;
 	
+	@Value("${" + Constants.PROP_SYNC_SOURCE_ID + "}")
+	private String sourceId;
+	
+	@Value("${" + Constants.PROP_SYNC_QUEUE_NAME + "}")
+	private String queueName;
+	
 	private CsvParser parser;
 	
 	public Processor(CsvParser parser) {
@@ -71,8 +77,7 @@ public class Processor {
 			entities.addAll(items);
 		}
 		
-		//TODO Send entities to activeQM
-		
+		MessageUtils.sendBatch(null, entities, sourceId, queueName);
 		//TODO Update offset
 	}
 	
