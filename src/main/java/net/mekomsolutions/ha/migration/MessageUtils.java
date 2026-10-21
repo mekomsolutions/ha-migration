@@ -31,7 +31,7 @@ public class MessageUtils {
 	
 	public static void sendBatch(ConnectionFactory cf, List<BaseEntity> items, String senderId, String queueName) {
 		if (log.isDebugEnabled()) {
-			log.debug("Sending batch of {} items(s)", items.size());
+			log.debug("Sending batch of {} entities", items.size());
 		}
 		
 		try (Connection c = cf.createConnection(); Session s = c.createSession(true, Session.SESSION_TRANSACTED)) {
@@ -50,12 +50,12 @@ public class MessageUtils {
 				
 				s.commit();
 				if (log.isDebugEnabled()) {
-					log.info("Successfully sent a batch of {} item(s)", items.size());
+					log.debug("Successfully sent a batch of {} entities", items.size());
 				}
 			}
 		}
 		catch (Exception e) {
-			log.error("Failed to send batch of {} item(s)", items.size(), e);
+			log.error("Failed to send batch of {} entities", items.size(), e);
 			throw new RuntimeException(e);
 		}
 	}
