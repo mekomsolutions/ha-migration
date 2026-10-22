@@ -25,9 +25,9 @@ public class PatientItemizer extends BaseRowItemizer<PatientData> {
 		Patient patient = new Patient();
 		patient.setGender(data.getGender());
 		patient.setBirthdate(data.getBirthdate());
-		patient.setCreator(Constants.DAEMON_USER_UUID);
+		patient.setCreator(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")");
 		patient.setDateCreated(date);
-		patient.setPatientCreator(Constants.DAEMON_USER_UUID);
+		patient.setPatientCreator(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")");
 		patient.setPatientDateCreated(date);
 		entities.add(patient);
 		entities.add(data.getName());

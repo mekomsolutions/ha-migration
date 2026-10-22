@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import jakarta.jms.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
 import net.mekomsolutions.ha.migration.itemizer.BaseRowItemizer;
 import net.mekomsolutions.ha.migration.model.BaseEntity;
@@ -36,8 +37,11 @@ public class Processor {
 	
 	private CsvParser parser;
 	
-	public Processor(CsvParser parser) {
+	private ConnectionFactory connectionFactory;
+	
+	public Processor(CsvParser parser, ConnectionFactory connectionFactory) {
 		this.parser = parser;
+		this.connectionFactory = connectionFactory;
 	}
 	
 	public void process() {
@@ -60,7 +64,7 @@ public class Processor {
 			sendBatch(batch, type.getItemCountPerRow(), itemizer);
 		}
 		
-		log.info("Processed {} items", totalCount);
+		log.info("Processed {} rows", totalCount);
 		//TODO Clear offset
 	}
 	
@@ -77,7 +81,7 @@ public class Processor {
 			entities.addAll(items);
 		}
 		
-		MessageUtils.sendBatch(null, entities, sourceId, queueName);
+		MessageUtils.sendBatch(connectionFactory, entities, sourceId, queueName);
 		//TODO Update offset
 	}
 	

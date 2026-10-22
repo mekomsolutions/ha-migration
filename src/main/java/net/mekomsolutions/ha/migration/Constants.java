@@ -40,10 +40,6 @@ public class Constants {
 	
 	public final static String PROP_ATTR_TYPE_UUID_OCCUPATION = "attribute.type.uuid.occupation";
 	
-	public final static String ID_TYPE_CLASS_NAME = "org.openmrs.eip.dbsync.entity.light.PatientIdentifierTypeLight";
-	
-	public final static String ATTRIB_TYPE_CLASS_NAME = "org.openmrs.eip.dbsync.entity.light.PersonAttributeTypeLight";
-	
 	public static final String DAEMON_USER_UUID = "A4F30A1B-5EB9-11DF-A648-37A07F9C90FB";
 	
 	public final static String OFFSET_FILE = "offset.json";
@@ -52,14 +48,22 @@ public class Constants {
 	
 	public final static String DB_SYNC_OPERATION = "r";
 	
-	public final static String SYNC_CLASS_PATIENT = "org.openmrs.eip.dbsync.model.PatientModel";
+	public final static String SYNC_PKG = "org.openmrs.eip.dbsync.";
 	
-	public final static String SYNC_CLASS_ID = "org.openmrs.eip.dbsync.model.PatientIdentifierModel";
+	public final static String SYNC_CLASS_PATIENT = SYNC_PKG + "model.PatientModel";
 	
-	public final static String SYNC_CLASS_ADDRESS = "org.openmrs.eip.dbsync.entity.PersonAddres";
+	public final static String SYNC_CLASS_ID = SYNC_PKG + "model.PatientIdentifierModel";
 	
-	public final static String SYNC_CLASS_ATTRIBUTE = "org.openmrs.eip.dbsync.entity.PersonAttribute";
+	public final static String SYNC_CLASS_ADDRESS = SYNC_PKG + "entity.PersonAddres";
 	
-	public final static String SYNC_CLASS_NAME = "org.openmrs.eip.dbsync.entity.PersonName";
+	public final static String SYNC_CLASS_ATTRIBUTE = SYNC_PKG + "entity.PersonAttribute";
+	
+	public final static String SYNC_CLASS_NAME = SYNC_PKG + "entity.PersonName";
+	
+	public final static String SYNC_CLASS_ID_LIGHT = SYNC_PKG + "entity.light.PatientIdentifierTypeLight";
+	
+	public final static String SYNC_CLASS_ATTRIB_TYPE_LIGHT = SYNC_PKG + "entity.light.PersonAttributeTypeLight";
+	
+	public final static String SYNC_CLASS_USER_LIGHT = SYNC_PKG + "entity.light.UserLight";
 	
 }

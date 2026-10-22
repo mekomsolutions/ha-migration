@@ -47,8 +47,8 @@ public class AttributeDeserializer extends StdDeserializer<PersonAttribute> {
 	public PersonAttribute deserialize(JsonParser p, DeserializationContext ctxt) {
 		PersonAttribute attribute = new PersonAttribute();
 		attribute.setValue(p.getText());
-		attribute.setPersonAttributeType(Constants.ATTRIB_TYPE_CLASS_NAME + "(" + attributeTypeUuid + ")");
-		attribute.setCreator(Constants.DAEMON_USER_UUID);
+		attribute.setPersonAttributeType(Constants.SYNC_CLASS_ATTRIB_TYPE_LIGHT + "(" + attributeTypeUuid + ")");
+		attribute.setCreator(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")");
 		attribute.setDateCreated((LocalDateTime) ctxt.getAttribute("date"));
 		return attribute;
 	}
