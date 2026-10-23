@@ -42,7 +42,7 @@ public class Constants {
 	
 	public static final String DAEMON_USER_UUID = "A4F30A1B-5EB9-11DF-A648-37A07F9C90FB";
 	
-	public final static String OFFSET_FILE = "offset.json";
+	public final static String OFFSET_FILE_SUFFIX = "-offset.json";
 	
 	public final static String DB_SYNC_VERSION = "4.0.0";
 	
