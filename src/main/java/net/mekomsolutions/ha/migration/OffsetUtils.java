@@ -16,7 +16,17 @@ public class OffsetUtils {
 	
 	private static final JsonMapper MAPPER = JsonMapper.builder().build();
 	
-	public static void init(Path csvFilePath, String type) throws IOException {
+	/**
+	 * Initializes the processing of the specified CSV file based on the provided entity type. This
+	 * method validates the integrity of the file by checking its hash against an existing offset record
+	 * to ensure that the file has not been modified during processing. If no offset data exists for the
+	 * type, a new offset record is created and associated with the file's hash.
+	 *
+	 * @param csvFilePath the path to the CSV file being processed
+	 * @param type the type of entity that the CSV file data pertains to
+	 * @throws IOException
+	 */
+	public static void init(Path csvFilePath, EntityType type) throws IOException {
 		byte[] csvFileData = FileUtils.readAllBytes(csvFilePath);
 		String hash = DigestUtils.md5DigestAsHex(csvFileData);
 		OffsetData offsetData = loadOffsetData(type);
@@ -40,7 +50,7 @@ public class OffsetUtils {
 	private static Path getOffsetPath(String fileName) {
 		if (offsetPath == null) {
 			offsetPath = FileUtils.get(fileName + Constants.OFFSET_FILE_SUFFIX);
-			log.info("Off set file -> {}", offsetPath);
+			log.info("{} offset file -> {}", fileName, offsetPath);
 		}
 		
 		return offsetPath;
@@ -49,15 +59,15 @@ public class OffsetUtils {
 	/**
 	 * Saves the offset data
 	 *
-	 * @param type the logical type of the data
+	 * @param type the type of the data
 	 */
-	public static OffsetData loadOffsetData(String type) {
+	public static OffsetData loadOffsetData(EntityType type) {
 		try {
-			Path path = getOffsetPath(type);
+			Path path = getOffsetPath(type.name());
 			if (FileUtils.exists(path)) {
 				byte[] data = FileUtils.readAllBytes(path);
 				if (data.length == 0) {
-					log.info("No offset data found");
+					log.info("No {} offset data found", type);
 				} else {
 					return MAPPER.readValue(data, OffsetData.class);
 				}
@@ -66,24 +76,25 @@ public class OffsetUtils {
 			return null;
 		}
 		catch (IOException e) {
-			throw new RuntimeException("Failed to load offset data for " + type, e);
+			throw new RuntimeException("Failed to load " + type + " offset data", e);
 		}
 	}
 	
 	/**
 	 * Gets the number of the last processed row.
 	 *
+	 * @param type the type of the data
 	 * @return row number
 	 */
-	public static Integer getLastProcessedRowNumber(String type) {
-		log.info("Loading row number that was last processed");
+	public static Integer getLastProcessedRowNumber(EntityType type) {
+		log.info("Loading {} row number that was last processed", type);
 		
 		OffsetData data = loadOffsetData(type);
 		Integer rowNumber = data.getRowNumber();
 		if (rowNumber == null) {
-			log.info("No last processed row number was found");
+			log.info("No last processed {} row number was found", type);
 		} else {
-			log.info("Found last processed row number: {}", rowNumber);
+			log.info("Found last processed {} row number: {}", type, rowNumber);
 		}
 		
 		return rowNumber;
@@ -93,42 +104,45 @@ public class OffsetUtils {
 	 * Saves the offset data
 	 *
 	 * @param rowNumber row number
+	 * @param type the type of the data
 	 */
-	public static void saveOffset(Integer rowNumber, String type) {
+	public static void saveOffset(Integer rowNumber, EntityType type) {
 		OffsetData data = loadOffsetData(type);
 		data.setRowNumber(rowNumber);
 		final String json = MAPPER.writeValueAsString(data);
-		log.info("Saving offset details as: {}", json);
+		log.info("Saving {} offset details as: {}", type, json);
 		
 		try {
-			FileUtils.write(getOffsetPath(type), json.getBytes(StandardCharsets.UTF_8));
+			FileUtils.write(getOffsetPath(type.name()), json.getBytes(StandardCharsets.UTF_8));
 			
-			log.info("Successfully saved the offset file");
+			log.info("Successfully saved {} offset file", type);
 		}
 		catch (IOException e) {
-			log.error("Failed to save the offset file", e);
+			log.error("Failed to save " + type + " offset file", e);
 		}
 	}
 	
 	/**
 	 * Deletes the offset file.
+	 *
+	 * @param type the type of the data
 	 */
-	public static void deleteOffset(String type) {
-		log.info("Deleting the offset file");
+	public static void deleteOffset(EntityType type) {
+		log.info("Deleting the offset file for {}", type);
 		
-		Path path = getOffsetPath(type);
+		Path path = getOffsetPath(type.name());
 		if (!FileUtils.exists(path)) {
-			log.info("No offset file found to delete");
+			log.info("No {} offset file found to delete", type);
 			return;
 		}
 		
 		try {
 			FileUtils.deleteIfExists(path);
 			
-			log.info("Successfully deleted the offset file");
+			log.info("Successfully deleted {} offset file", type);
 		}
 		catch (IOException e) {
-			log.error("Failed to delete the offset file", e);
+			log.error("Failed to delete " + type + " offset file", e);
 		}
 	}
 	
