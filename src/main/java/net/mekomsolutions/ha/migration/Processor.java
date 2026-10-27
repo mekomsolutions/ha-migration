@@ -1,5 +1,6 @@
 package net.mekomsolutions.ha.migration;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,27 +46,43 @@ public class Processor {
 	}
 	
 	public void process() {
+		Path path = FileUtils.get(directory, file);
+		try {
+			OffsetUtils.init(path, type);
+		}
+		catch (IOException e) {
+			throw new RuntimeException("Failed to initialize offset", e);
+		}
+		
+		Integer lastProcessedRow = OffsetUtils.getLastProcessedRowNumber(type);
 		final MappingIterator<?> it = parseFile();
 		final BaseRowItemizer itemizer = ProcessorUtils.getItemizer(type.getClazz());
-		int totalCount = 0;
+		int rowNumber = 0;
+		int processedCount = 0;
 		final List<Object> batch = new ArrayList<>(batchSize);
 		while (it.hasNext()) {
 			final Object row = it.next();
+			rowNumber++;
+			if (lastProcessedRow != null && rowNumber <= lastProcessedRow) {
+				log.debug("Skipping already processed row number {}", rowNumber);
+				continue;
+			}
+			
 			batch.add(row);
 			if (batch.size() == batchSize) {
-				sendBatch(batch, type.getItemCountPerRow(), itemizer);
+				sendBatch(batch, rowNumber, type.getItemCountPerRow(), itemizer);
 				batch.clear();
 			}
 			
-			totalCount++;
+			processedCount++;
 		}
 		
 		if (!batch.isEmpty()) {
-			sendBatch(batch, type.getItemCountPerRow(), itemizer);
+			sendBatch(batch, rowNumber, type.getItemCountPerRow(), itemizer);
 		}
 		
-		log.info("Processed {} rows", totalCount);
-		//TODO Clear offset
+		log.info("Processed {} rows", processedCount);
+		OffsetUtils.deleteOffset(type);
 	}
 	
 	protected MappingIterator<?> parseFile() {
@@ -74,7 +91,7 @@ public class Processor {
 		return parser.parse(path, type.getClazz());
 	}
 	
-	protected void sendBatch(List<Object> rows, int entityCountPerRow, BaseRowItemizer itemizer) {
+	protected void sendBatch(List<Object> rows, int rowNumber, int entityCountPerRow, BaseRowItemizer itemizer) {
 		List<BaseEntity> entities = new ArrayList<>(rows.size() * entityCountPerRow);
 		for (Object row : rows) {
 			List<BaseEntity> items = itemizer.itemize(row);
@@ -82,7 +99,7 @@ public class Processor {
 		}
 		
 		MessageUtils.sendBatch(connectionFactory, entities, sourceId, queueName);
-		//TODO Update offset
+		OffsetUtils.saveOffset(rowNumber, type);
 	}
 	
 }

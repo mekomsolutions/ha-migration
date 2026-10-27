@@ -33,11 +33,9 @@ public class OffsetUtils {
 		if (offsetData == null) {
 			offsetData = new OffsetData();
 			offsetData.setFileHash(hash);
-		} else {
-			if (!hash.equals(offsetData.getFileHash())) {
-				throw new IllegalStateException(
-				        "The contents of the import file have changed while it was still being processed");
-			}
+		} else if (!hash.equals(offsetData.getFileHash())) {
+			throw new IllegalStateException(
+			        "The contents of the import file have changed while it was still being processed");
 		}
 		
 	}
