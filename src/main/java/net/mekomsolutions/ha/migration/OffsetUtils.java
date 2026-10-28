@@ -33,6 +33,8 @@ public class OffsetUtils {
 		if (offsetData == null) {
 			offsetData = new OffsetData();
 			offsetData.setFileHash(hash);
+			offsetData.setRowNumber(0);
+			saveOffsetData(offsetData, type);
 		} else if (!hash.equals(offsetData.getFileHash())) {
 			throw new IllegalStateException(
 			        "The contents of the import file have changed while it was still being processed");
@@ -88,7 +90,7 @@ public class OffsetUtils {
 		log.info("Loading {} row number that was last processed", type);
 		
 		OffsetData data = loadOffsetData(type);
-		Integer rowNumber = data.getRowNumber();
+		Integer rowNumber = data != null ? data.getRowNumber() : null;
 		if (rowNumber == null) {
 			log.info("No last processed {} row number was found", type);
 		} else {
@@ -99,24 +101,34 @@ public class OffsetUtils {
 	}
 	
 	/**
-	 * Saves the offset data
+	 * Saves the offset row number.
 	 *
 	 * @param rowNumber row number
 	 * @param type the type of the data
 	 */
-	public static void saveOffset(Integer rowNumber, EntityType type) {
+	public static void saveRowNumber(Integer rowNumber, EntityType type) {
 		OffsetData data = loadOffsetData(type);
 		data.setRowNumber(rowNumber);
+		saveOffsetData(data, type);
+	}
+	
+	/**
+	 * Saves the offset data to disk
+	 *
+	 * @param data the offset data object
+	 * @param type the type of the data
+	 */
+	private static void saveOffsetData(OffsetData data, EntityType type) {
 		final String json = MAPPER.writeValueAsString(data);
-		log.info("Saving {} offset details as: {}", type, json);
+		log.info("Saving {} offset data as: {}", type, json);
 		
 		try {
 			FileUtils.write(getOffsetPath(type.name()), json.getBytes(StandardCharsets.UTF_8));
 			
-			log.info("Successfully saved {} offset file", type);
+			log.info("Successfully saved {} offset data", type);
 		}
 		catch (IOException e) {
-			log.error("Failed to save " + type + " offset file", e);
+			log.error("Failed to save " + type + " offset data", e);
 		}
 	}
 	

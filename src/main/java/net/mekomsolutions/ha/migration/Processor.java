@@ -99,7 +99,7 @@ public class Processor {
 		}
 		
 		MessageUtils.sendBatch(connectionFactory, entities, sourceId, queueName);
-		OffsetUtils.saveOffset(rowNumber, type);
+		OffsetUtils.saveRowNumber(rowNumber, type);
 	}
 	
 }
