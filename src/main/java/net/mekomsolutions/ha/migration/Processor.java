@@ -54,23 +54,23 @@ public class Processor {
 			throw new RuntimeException("Failed to initialize offset", e);
 		}
 		
-		Integer lastProcessedRow = OffsetUtils.getLastProcessedRowNumber(type);
+		Integer lastProcessedRow = OffsetUtils.getLastProcessedRowIndex(type);
 		final MappingIterator<?> it = parseFile();
 		final BaseRowItemizer itemizer = ProcessorUtils.getItemizer(type.getClazz());
-		int rowNumber = 0;
+		int rowIndex = -1;
 		int processedCount = 0;
 		final List<Object> batch = new ArrayList<>(batchSize);
 		while (it.hasNext()) {
 			final Object row = it.next();
-			rowNumber++;
-			if (lastProcessedRow != null && rowNumber <= lastProcessedRow) {
-				log.debug("Skipping already processed row number {}", rowNumber);
+			rowIndex++;
+			if (lastProcessedRow != null && rowIndex <= lastProcessedRow) {
+				log.debug("Skipping already processed row index {}", rowIndex);
 				continue;
 			}
 			
 			batch.add(row);
 			if (batch.size() == batchSize) {
-				sendBatch(batch, rowNumber, type.getItemCountPerRow(), itemizer);
+				sendBatch(batch, rowIndex, type.getItemCountPerRow(), itemizer);
 				batch.clear();
 			}
 			
@@ -78,7 +78,7 @@ public class Processor {
 		}
 		
 		if (!batch.isEmpty()) {
-			sendBatch(batch, rowNumber, type.getItemCountPerRow(), itemizer);
+			sendBatch(batch, rowIndex, type.getItemCountPerRow(), itemizer);
 		}
 		
 		log.info("Processed {} rows", processedCount);
@@ -91,7 +91,7 @@ public class Processor {
 		return parser.parse(path, type.getClazz());
 	}
 	
-	protected void sendBatch(List<Object> rows, int rowNumber, int entityCountPerRow, BaseRowItemizer itemizer) {
+	protected void sendBatch(List<Object> rows, int rowIndex, int entityCountPerRow, BaseRowItemizer itemizer) {
 		List<BaseEntity> entities = new ArrayList<>(rows.size() * entityCountPerRow);
 		for (Object row : rows) {
 			List<BaseEntity> items = itemizer.itemize(row);
@@ -99,7 +99,7 @@ public class Processor {
 		}
 		
 		MessageUtils.sendBatch(connectionFactory, entities, sourceId, queueName);
-		OffsetUtils.saveRowNumber(rowNumber, type);
+		OffsetUtils.saveRowIndex(rowIndex, type);
 	}
 	
 }

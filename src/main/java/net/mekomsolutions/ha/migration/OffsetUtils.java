@@ -33,7 +33,7 @@ public class OffsetUtils {
 		if (offsetData == null) {
 			offsetData = new OffsetData();
 			offsetData.setFileHash(hash);
-			offsetData.setRowNumber(0);
+			offsetData.setRowIndex(-1);
 			saveOffsetData(offsetData, type);
 		} else if (!hash.equals(offsetData.getFileHash())) {
 			throw new IllegalStateException(
@@ -81,34 +81,34 @@ public class OffsetUtils {
 	}
 	
 	/**
-	 * Gets the number of the last processed row.
+	 * Gets the index of the last processed row.
 	 *
 	 * @param type the type of the data
-	 * @return row number
+	 * @return row index
 	 */
-	public static Integer getLastProcessedRowNumber(EntityType type) {
-		log.info("Loading {} row number that was last processed", type);
+	public static Integer getLastProcessedRowIndex(EntityType type) {
+		log.info("Loading {} row index that was last processed", type);
 		
 		OffsetData data = loadOffsetData(type);
-		Integer rowNumber = data != null ? data.getRowNumber() : null;
-		if (rowNumber == null) {
-			log.info("No last processed {} row number was found", type);
+		Integer rowIndex = data != null ? data.getRowIndex() : null;
+		if (rowIndex == null) {
+			log.info("No last processed {} row index was found", type);
 		} else {
-			log.info("Found last processed {} row number: {}", type, rowNumber);
+			log.info("Found last processed {} row index: {}", type, rowIndex);
 		}
 		
-		return rowNumber;
+		return rowIndex;
 	}
 	
 	/**
-	 * Saves the offset row number.
+	 * Saves the offset row index.
 	 *
-	 * @param rowNumber row number
+	 * @param rowIndex row index
 	 * @param type the type of the data
 	 */
-	public static void saveRowNumber(Integer rowNumber, EntityType type) {
+	public static void saveRowIndex(Integer rowIndex, EntityType type) {
 		OffsetData data = loadOffsetData(type);
-		data.setRowNumber(rowNumber);
+		data.setRowIndex(rowIndex);
 		saveOffsetData(data, type);
 	}
 	
