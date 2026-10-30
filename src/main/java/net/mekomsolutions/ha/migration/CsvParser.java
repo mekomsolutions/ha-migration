@@ -1,8 +1,6 @@
 package net.mekomsolutions.ha.migration;
 
 import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 import org.springframework.stereotype.Component;
 
@@ -21,8 +19,6 @@ public class CsvParser {
 	
 	private static CsvSchema SCHEMA = CsvSchema.emptySchema().withHeader();
 	
-	public final static String ATTRIB_DATE = "date";
-	
 	/**
 	 * Parses the content of a CSV file and maps it to a list of objects of the specified type. The
 	 * method uses Jackson's CsvMapper to handle the deserialization process.
@@ -33,8 +29,7 @@ public class CsvParser {
 	 * @return a MappingIterator that can be used to iterate over the deserialized objects
 	 */
 	public <T> MappingIterator<T> parse(Path path, Class<T> clazz) {
-		return MAPPER.readerFor(clazz).with(SCHEMA)
-		        .withAttribute(ATTRIB_DATE, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)).readValues(path);
+		return MAPPER.readerFor(clazz).with(SCHEMA).readValues(path);
 	}
 	
 }

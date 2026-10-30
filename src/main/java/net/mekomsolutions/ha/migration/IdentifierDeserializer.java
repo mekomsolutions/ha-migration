@@ -1,7 +1,5 @@
 package net.mekomsolutions.ha.migration;
 
-import java.time.LocalDateTime;
-
 import org.springframework.core.env.Environment;
 
 import net.mekomsolutions.ha.migration.model.PatientIdentifier;
@@ -53,7 +51,7 @@ public class IdentifierDeserializer extends StdDeserializer<PatientIdentifier> {
 		id.setIdentifierType(Constants.SYNC_CLASS_ID_LIGHT + "(" + idTypeUuid + ")");
 		id.setPreferred(preferred);
 		id.setCreator(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")");
-		id.setDateCreated((LocalDateTime) ctxt.getAttribute(CsvParser.ATTRIB_DATE));
+		id.setDateCreated(Processor.date);
 		return id;
 	}
 	

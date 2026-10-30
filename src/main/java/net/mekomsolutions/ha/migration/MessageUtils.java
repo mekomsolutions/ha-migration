@@ -1,6 +1,7 @@
 package net.mekomsolutions.ha.migration;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class MessageUtils {
 		try (Connection c = cf.createConnection(); Session s = c.createSession(true, Session.SESSION_TRANSACTED)) {
 			Queue queue = s.createQueue(queueName);
 			try (MessageProducer p = s.createProducer(queue)) {
-				LocalDateTime dateSent = LocalDateTime.now();
+				LocalDateTime dateSent = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 				for (BaseEntity item : items) {
 					final SyncMetadata md = SyncMetadata.builder().sourceIdentifier(senderId)
 					        .operation(Constants.DB_SYNC_OPERATION).dateSent(dateSent)

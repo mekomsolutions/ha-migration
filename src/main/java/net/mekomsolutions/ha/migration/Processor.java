@@ -2,6 +2,8 @@ package net.mekomsolutions.ha.migration;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import tools.jackson.databind.MappingIterator;
 @Component
 @Slf4j
 public class Processor {
+	
+	public static LocalDateTime date;
 	
 	@Value("${" + Constants.PROP_DATA_FILE_DIR + "}")
 	private String directory;
@@ -46,6 +50,7 @@ public class Processor {
 	}
 	
 	public void process() {
+		date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		Path path = FileUtils.get(directory, file);
 		try {
 			OffsetUtils.init(path, type);
