@@ -53,7 +53,7 @@ public class IdentifierDeserializer extends StdDeserializer<PatientIdentifier> {
 		id.setIdentifierType(Constants.SYNC_CLASS_ID_LIGHT + "(" + idTypeUuid + ")");
 		id.setPreferred(preferred);
 		id.setCreator(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")");
-		id.setDateCreated((LocalDateTime) ctxt.getAttribute("date"));
+		id.setDateCreated((LocalDateTime) ctxt.getAttribute(CsvParser.ATTRIB_DATE));
 		return id;
 	}
 	
