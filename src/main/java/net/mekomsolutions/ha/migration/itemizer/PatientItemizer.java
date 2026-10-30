@@ -1,7 +1,9 @@
 package net.mekomsolutions.ha.migration.itemizer;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,7 @@ import net.mekomsolutions.ha.migration.Processor;
 import net.mekomsolutions.ha.migration.data.PatientData;
 import net.mekomsolutions.ha.migration.model.BaseEntity;
 import net.mekomsolutions.ha.migration.model.Patient;
+import net.mekomsolutions.ha.migration.model.PatientIdentifier;
 import net.mekomsolutions.ha.migration.model.PersonAddress;
 import net.mekomsolutions.ha.migration.model.PersonName;
 
@@ -23,8 +26,12 @@ public class PatientItemizer extends BaseRowItemizer<PatientData> {
 	@Override
 	public List<BaseEntity> itemize(PatientData data) {
 		final String creator = Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")";
+		final String personUuid = UUID
+		        .nameUUIDFromBytes(data.getPatientId().getIdentifier().getBytes(StandardCharsets.UTF_8)).toString();
+		final String patientLight = Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + personUuid + ")";
 		List<BaseEntity> entities = new ArrayList<>(EntityType.PATIENT.getItemCountPerRow());
 		Patient patient = new Patient();
+		patient.setUuid(personUuid);
 		patient.setGender(data.getGender());
 		patient.setBirthdate(data.getBirthdate());
 		patient.setCreator(creator);
@@ -33,12 +40,18 @@ public class PatientItemizer extends BaseRowItemizer<PatientData> {
 		patient.setPatientDateCreated(Processor.date);
 		entities.add(patient);
 		PersonName name = data.getName();
+		name.setPerson(patientLight);
 		name.setCreator(creator);
 		name.setDateCreated(Processor.date);
 		entities.add(name);
-		entities.add(data.getPatientId());
-		entities.add(data.getGovtId());
+		PatientIdentifier patientId = data.getPatientId();
+		patientId.setPatient(patientLight);
+		entities.add(patientId);
+		PatientIdentifier govtId = data.getGovtId();
+		govtId.setPatient(patientLight);
+		entities.add(govtId);
 		PersonAddress address = data.getAddress();
+		address.setPerson(patientLight);
 		address.setCreator(creator);
 		address.setDateCreated(Processor.date);
 		entities.add(address);

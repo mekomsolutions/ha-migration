@@ -22,4 +22,8 @@ public class PersonName extends BaseEntity {
 	@JsonProperty("apellidos")
 	private String familyName;
 	
+	@Getter
+	@Setter
+	private String person;
+	
 }

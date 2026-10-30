@@ -60,6 +60,8 @@ public class Constants {
 	
 	public final static String SYNC_CLASS_NAME = SYNC_PKG + "model.PersonName";
 	
+	public final static String SYNC_CLASS_PATIENT_LIGHT = SYNC_PKG + "entity.light.PatientLight";
+	
 	public final static String SYNC_CLASS_ID_LIGHT = SYNC_PKG + "entity.light.PatientIdentifierTypeLight";
 	
 	public final static String SYNC_CLASS_ATTRIB_TYPE_LIGHT = SYNC_PKG + "entity.light.PersonAttributeTypeLight";

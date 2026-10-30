@@ -32,4 +32,8 @@ public class PersonAddress extends BaseEntity {
 	@JsonProperty("pais")
 	private String country;
 	
+	@Getter
+	@Setter
+	private String person;
+	
 }
