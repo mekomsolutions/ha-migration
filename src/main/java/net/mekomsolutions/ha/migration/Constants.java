@@ -54,11 +54,11 @@ public class Constants {
 	
 	public final static String SYNC_CLASS_ID = SYNC_PKG + "model.PatientIdentifierModel";
 	
-	public final static String SYNC_CLASS_ADDRESS = SYNC_PKG + "entity.PersonAddres";
+	public final static String SYNC_CLASS_ADDRESS = SYNC_PKG + "model.PersonAddress";
 	
-	public final static String SYNC_CLASS_ATTRIBUTE = SYNC_PKG + "entity.PersonAttribute";
+	public final static String SYNC_CLASS_ATTRIBUTE = SYNC_PKG + "model.PersonAttribute";
 	
-	public final static String SYNC_CLASS_NAME = SYNC_PKG + "entity.PersonName";
+	public final static String SYNC_CLASS_NAME = SYNC_PKG + "model.PersonName";
 	
 	public final static String SYNC_CLASS_ID_LIGHT = SYNC_PKG + "entity.light.PatientIdentifierTypeLight";
 	
