@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.mekomsolutions.ha.migration.LocalDateTimeSerializer;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 public class Patient extends BaseEntity {
 	
@@ -22,6 +24,7 @@ public class Patient extends BaseEntity {
 	
 	@Getter
 	@Setter
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime patientDateCreated;
 	
 	@Override

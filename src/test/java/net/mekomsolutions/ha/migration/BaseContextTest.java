@@ -15,6 +15,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @TestPropertySource(properties = Constants.PROP_DATA_FILE_DIR + "=")
 @TestPropertySource(properties = Constants.PROP_BATCH_SIZE + "=")
 @TestPropertySource(properties = Constants.PROP_SYNC_SOURCE_ID + "=")
+@TestPropertySource(properties = Constants.PROP_TIME_ZONE + "=America/Chicago")
 @TestPropertySource(properties = Constants.PROP_ID_TYPE_UUID_ID + "=type-uuid-1")
 @TestPropertySource(properties = Constants.PROP_ID_TYPE_UUID_GOVT + "=type-uuid-2")
 @TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_ETHNICITY + "=")

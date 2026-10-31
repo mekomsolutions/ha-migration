@@ -8,6 +8,8 @@ public class Constants {
 	
 	public final static String PROP_DATA_FILE_DIR = "data.file.directory";
 	
+	public final static String PROP_TIME_ZONE = "data.time.zone";
+	
 	public final static String PROP_BATCH_SIZE = "batch.size";
 	
 	public final static String PROP_SYNC_SOURCE_ID = "sync.source.id";
