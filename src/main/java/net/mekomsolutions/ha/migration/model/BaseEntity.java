@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.mekomsolutions.ha.migration.LocalDateTimeSerializer;
-import tools.jackson.databind.annotation.JsonSerialize;
 
 public abstract class BaseEntity {
 	
@@ -21,7 +19,6 @@ public abstract class BaseEntity {
 	
 	@Getter
 	@Setter
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime dateCreated;
 	
 	@JsonIgnore

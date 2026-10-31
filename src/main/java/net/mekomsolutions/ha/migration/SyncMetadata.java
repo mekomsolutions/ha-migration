@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import lombok.Builder;
 import lombok.Getter;
-import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Encapsulates descriptive data about a sync payload i.e. the unique ID of the site sending the.
@@ -20,7 +19,6 @@ public class SyncMetadata {
 	private String operation;
 	
 	@Getter
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime dateSent;
 	
 	@Getter
