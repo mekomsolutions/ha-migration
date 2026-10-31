@@ -15,7 +15,7 @@ public abstract class BaseEntity {
 	
 	@Getter
 	@Setter
-	private String creator;
+	private String creatorUuid;
 	
 	@Getter
 	@Setter

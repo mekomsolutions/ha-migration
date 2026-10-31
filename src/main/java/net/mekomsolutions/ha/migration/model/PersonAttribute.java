@@ -10,11 +10,11 @@ public class PersonAttribute extends BaseEntity {
 	@Getter
 	@Setter
 	@JsonIgnore
-	private String personAttributeTypeUuid;
+	private String attributeTypeUuid;
 	
 	@Getter
 	@Setter
-	private String personAttributeType;
+	private String personAttributeTypeUuid;
 	
 	@Getter
 	@Setter
@@ -22,11 +22,11 @@ public class PersonAttribute extends BaseEntity {
 	
 	@Getter
 	@Setter
-	private String person;
+	private String personUuid;
 	
 	@Override
 	public String getUuidTextPrefix() {
-		return personAttributeTypeUuid + value;
+		return attributeTypeUuid + value;
 	}
 	
 }

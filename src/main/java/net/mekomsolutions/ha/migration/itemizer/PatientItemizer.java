@@ -35,29 +35,29 @@ public class PatientItemizer extends BaseRowItemizer<PatientData> {
 		patient.setUuid(patUuid);
 		patient.setGender(data.getGender());
 		patient.setBirthdate(data.getBirthdate());
-		patient.setCreator(creator);
+		patient.setCreatorUuid(creator);
 		patient.setDateCreated(Processor.date);
-		patient.setPatientCreator(creator);
+		patient.setPatientCreatorUuid(creator);
 		patient.setPatientDateCreated(Processor.date);
 		entities.add(patient);
 		PersonName name = data.getName();
 		name.setUuid(UUID.nameUUIDFromBytes((name.getUuidTextPrefix() + patUuid).getBytes(UTF_8)).toString());
-		name.setPerson(patientLight);
-		name.setCreator(creator);
+		name.setPersonUuid(patientLight);
+		name.setCreatorUuid(creator);
 		name.setDateCreated(Processor.date);
 		entities.add(name);
 		PatientIdentifier patientId = data.getPatientId();
 		patientId.setUuid(UUID.nameUUIDFromBytes((patientId.getUuidTextPrefix() + patUuid).getBytes(UTF_8)).toString());
-		patientId.setPatient(patientLight);
+		patientId.setPatientUuid(patientLight);
 		entities.add(patientId);
 		PatientIdentifier govtId = data.getGovtId();
 		govtId.setUuid(UUID.nameUUIDFromBytes((govtId.getUuidTextPrefix() + patUuid).getBytes(UTF_8)).toString());
-		govtId.setPatient(patientLight);
+		govtId.setPatientUuid(patientLight);
 		entities.add(govtId);
 		PersonAddress address = data.getAddress();
 		address.setUuid(UUID.nameUUIDFromBytes((address.getUuidTextPrefix() + patUuid).getBytes(UTF_8)).toString());
-		address.setPerson(patientLight);
-		address.setCreator(creator);
+		address.setPersonUuid(patientLight);
+		address.setCreatorUuid(creator);
 		address.setDateCreated(Processor.date);
 		entities.add(address);
 		addAttribute(data.getEthnicity(), entities, patUuid, patientLight);
@@ -76,7 +76,7 @@ public class PatientItemizer extends BaseRowItemizer<PatientData> {
 	
 	private void addAttribute(PersonAttribute a, List<BaseEntity> entities, String patUuid, String patientLight) {
 		a.setUuid(UUID.nameUUIDFromBytes((a.getUuidTextPrefix() + patUuid).getBytes(UTF_8)).toString());
-		a.setPerson(patientLight);
+		a.setPersonUuid(patientLight);
 		entities.add(a);
 	}
 	

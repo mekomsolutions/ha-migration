@@ -18,11 +18,11 @@ public class PatientIdentifier extends BaseEntity {
 	
 	@Getter
 	@Setter
-	private String identifierType;
+	private String patientIdentifierTypeUuid;
 	
 	@Getter
 	@Setter
-	private String patient;
+	private String patientUuid;
 	
 	@Getter
 	@Setter

@@ -18,7 +18,7 @@ public class Patient extends BaseEntity {
 	
 	@Getter
 	@Setter
-	private String patientCreator;
+	private String patientCreatorUuid;
 	
 	@Getter
 	@Setter
