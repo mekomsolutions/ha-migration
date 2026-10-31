@@ -23,6 +23,9 @@ public class PersonName extends BaseEntity {
 	private String familyName;
 	
 	@Getter
+	private final boolean preferred = true;
+	
+	@Getter
 	@Setter
 	private String personUuid;
 	

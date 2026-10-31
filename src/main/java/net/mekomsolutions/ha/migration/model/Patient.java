@@ -24,6 +24,9 @@ public class Patient extends BaseEntity {
 	@Setter
 	private LocalDateTime patientDateCreated;
 	
+	@Getter
+	private final String allergyStatus = "Unknown";
+	
 	@Override
 	public String getUuidTextPrefix() {
 		return null;

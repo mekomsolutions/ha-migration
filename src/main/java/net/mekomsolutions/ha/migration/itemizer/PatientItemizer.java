@@ -54,7 +54,8 @@ public class PatientItemizer extends BaseRowItemizer<PatientData> {
 		govtId.setUuid(UUID.nameUUIDFromBytes((govtId.getUuidTextPrefix() + patUuid).getBytes(UTF_8)).toString());
 		govtId.setPatientUuid(patientLight);
 		entities.add(govtId);
-		PersonAddress address = data.getAddress();
+		PersonAddress address = new PersonAddress();
+		address.setAddress(data.getAddress());
 		address.setUuid(UUID.nameUUIDFromBytes((address.getUuidTextPrefix() + patUuid).getBytes(UTF_8)).toString());
 		address.setPersonUuid(patientLight);
 		address.setCreatorUuid(creator);

@@ -13,8 +13,8 @@ import net.mekomsolutions.ha.migration.BirthDateDeserializer;
 import net.mekomsolutions.ha.migration.Constants;
 import net.mekomsolutions.ha.migration.Identifier;
 import net.mekomsolutions.ha.migration.IdentifierDeserializer;
+import net.mekomsolutions.ha.migration.model.Address;
 import net.mekomsolutions.ha.migration.model.PatientIdentifier;
-import net.mekomsolutions.ha.migration.model.PersonAddress;
 import net.mekomsolutions.ha.migration.model.PersonAttribute;
 import net.mekomsolutions.ha.migration.model.PersonName;
 import tools.jackson.databind.annotation.JsonDeserialize;
@@ -131,6 +131,6 @@ public class PatientData {
 	@Getter
 	@Setter
 	@JsonUnwrapped
-	private PersonAddress address;
+	private Address address;
 	
 }
