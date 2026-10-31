@@ -19,16 +19,24 @@ import net.mekomsolutions.ha.migration.model.PersonAddress;
 import net.mekomsolutions.ha.migration.model.PersonAttribute;
 import net.mekomsolutions.ha.migration.model.PersonName;
 import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 
 @Slf4j
 public class MessageUtils {
 	
-	private static final JsonMapper MAPPER = JsonMapper.builder().build();
+	private static JsonMapper mapper;
 	
 	private static final Map<Class<? extends BaseEntity>, String> TYPE_TO_SYNC_CLASS_MAP = Map.of(Patient.class,
 	    Constants.SYNC_CLASS_PATIENT, PatientIdentifier.class, Constants.SYNC_CLASS_ID, PersonAddress.class,
 	    Constants.SYNC_CLASS_ADDRESS, PersonAttribute.class, Constants.SYNC_CLASS_ATTRIBUTE, PersonName.class,
 	    Constants.SYNC_CLASS_NAME);
+	
+	public static JsonMapper getMapper() {
+		final SimpleModule module = new SimpleModule();
+		module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
+		mapper = JsonMapper.builder().addModule(module).build();
+		return mapper;
+	}
 	
 	public static void sendBatch(ConnectionFactory cf, List<BaseEntity> items, String senderId, String queueName) {
 		if (log.isDebugEnabled()) {
@@ -45,7 +53,7 @@ public class MessageUtils {
 					        .dbSyncVersion(Constants.DB_SYNC_VERSION).build();
 					final SyncModel model = SyncModel.builder().model(item)
 					        .tableToSyncModelClass(TYPE_TO_SYNC_CLASS_MAP.get(item.getClass())).metadata(md).build();
-					TextMessage msg = s.createTextMessage(MAPPER.writeValueAsString(model));
+					TextMessage msg = s.createTextMessage(getMapper().writeValueAsString(model));
 					p.send(msg);
 				}
 				
