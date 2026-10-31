@@ -19,4 +19,6 @@ public abstract class BaseEntity {
 	@Setter
 	private LocalDateTime dateCreated;
 	
+	public abstract String getUuidTextPrefix();
+	
 }

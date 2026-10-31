@@ -24,4 +24,9 @@ public class Patient extends BaseEntity {
 	@Setter
 	private LocalDateTime patientDateCreated;
 	
+	@Override
+	public String getUuidTextPrefix() {
+		return null;
+	}
+	
 }

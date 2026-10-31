@@ -48,6 +48,7 @@ public class IdentifierDeserializer extends StdDeserializer<PatientIdentifier> {
 	public PatientIdentifier deserialize(JsonParser p, DeserializationContext ctxt) {
 		PatientIdentifier id = new PatientIdentifier();
 		id.setIdentifier(p.getText());
+		id.setIdentifierTypeUuid(idTypeUuid);
 		id.setIdentifierType(Constants.SYNC_CLASS_ID_LIGHT + "(" + idTypeUuid + ")");
 		id.setPreferred(preferred);
 		id.setCreator(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")");

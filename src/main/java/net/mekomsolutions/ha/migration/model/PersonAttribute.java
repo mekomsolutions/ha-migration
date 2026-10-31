@@ -7,6 +7,10 @@ public class PersonAttribute extends BaseEntity {
 	
 	@Getter
 	@Setter
+	private String personAttributeTypeUuid;
+	
+	@Getter
+	@Setter
 	private String personAttributeType;
 	
 	@Getter
@@ -16,5 +20,10 @@ public class PersonAttribute extends BaseEntity {
 	@Getter
 	@Setter
 	private String person;
+	
+	@Override
+	public String getUuidTextPrefix() {
+		return personAttributeTypeUuid + value;
+	}
 	
 }

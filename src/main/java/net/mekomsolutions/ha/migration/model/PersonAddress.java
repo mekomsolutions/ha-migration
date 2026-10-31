@@ -36,4 +36,9 @@ public class PersonAddress extends BaseEntity {
 	@Setter
 	private String person;
 	
+	@Override
+	public String getUuidTextPrefix() {
+		return address1 + address2 + cityVillage + stateProvince + country;
+	}
+	
 }

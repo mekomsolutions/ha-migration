@@ -11,6 +11,10 @@ public class PatientIdentifier extends BaseEntity {
 	
 	@Getter
 	@Setter
+	private String identifierTypeUuid;
+	
+	@Getter
+	@Setter
 	private String identifierType;
 	
 	@Getter
@@ -20,5 +24,10 @@ public class PatientIdentifier extends BaseEntity {
 	@Getter
 	@Setter
 	private boolean preferred;
+	
+	@Override
+	public String getUuidTextPrefix() {
+		return identifierTypeUuid + identifier;
+	}
 	
 }

@@ -26,4 +26,9 @@ public class PersonName extends BaseEntity {
 	@Setter
 	private String person;
 	
+	@Override
+	public String getUuidTextPrefix() {
+		return givenName + middleName + familyName;
+	}
+	
 }
