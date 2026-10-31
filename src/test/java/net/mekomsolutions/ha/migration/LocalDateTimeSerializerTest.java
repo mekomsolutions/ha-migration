@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
+import com.jayway.jsonpath.JsonPath;
+
 import tools.jackson.databind.json.JsonMapper;
 
 public class LocalDateTimeSerializerTest extends BaseContextTest {
@@ -19,7 +21,7 @@ public class LocalDateTimeSerializerTest extends BaseContextTest {
 		
 		String json = MAPPER.writeValueAsString(metadata);
 		
-		assertEquals("{\"dateSent\":\"2021-06-10T10:15:30-05:00\"}", json);
+		assertEquals("2021-06-10T10:15:30-05:00", JsonPath.parse(json).read("$.dateSent"));
 	}
 	
 }
