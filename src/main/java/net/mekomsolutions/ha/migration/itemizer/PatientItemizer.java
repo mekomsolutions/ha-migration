@@ -60,23 +60,24 @@ public class PatientItemizer extends BaseRowItemizer<PatientData> {
 		address.setCreator(creator);
 		address.setDateCreated(Processor.date);
 		entities.add(address);
-		addAttribute(data.getEthnicity(), entities, patUuid);
-		addAttribute(data.getMaritalStatus(), entities, patUuid);
-		addAttribute(data.getPhone(), entities, patUuid);
-		addAttribute(data.getBirthPlace(), entities, patUuid);
-		addAttribute(data.getSpouse(), entities, patUuid);
-		addAttribute(data.getFather(), entities, patUuid);
-		addAttribute(data.getMother(), entities, patUuid);
-		addAttribute(data.getIgss(), entities, patUuid);
-		addAttribute(data.getEmergencyContact(), entities, patUuid);
-		addAttribute(data.getEmergencyPhone(), entities, patUuid);
-		addAttribute(data.getOccupation(), entities, patUuid);
+		addAttribute(data.getEthnicity(), entities, patUuid, patientLight);
+		addAttribute(data.getMaritalStatus(), entities, patUuid, patientLight);
+		addAttribute(data.getPhone(), entities, patUuid, patientLight);
+		addAttribute(data.getBirthPlace(), entities, patUuid, patientLight);
+		addAttribute(data.getSpouse(), entities, patUuid, patientLight);
+		addAttribute(data.getFather(), entities, patUuid, patientLight);
+		addAttribute(data.getMother(), entities, patUuid, patientLight);
+		addAttribute(data.getIgss(), entities, patUuid, patientLight);
+		addAttribute(data.getEmergencyContact(), entities, patUuid, patientLight);
+		addAttribute(data.getEmergencyPhone(), entities, patUuid, patientLight);
+		addAttribute(data.getOccupation(), entities, patUuid, patientLight);
 		return entities;
 	}
 	
-	private void addAttribute(PersonAttribute attribute, List<BaseEntity> entities, String patUuid) {
-		attribute.setUuid(UUID.nameUUIDFromBytes((attribute.getUuidTextPrefix() + patUuid).getBytes(UTF_8)).toString());
-		entities.add(attribute);
+	private void addAttribute(PersonAttribute a, List<BaseEntity> entities, String patUuid, String patientLight) {
+		a.setUuid(UUID.nameUUIDFromBytes((a.getUuidTextPrefix() + patUuid).getBytes(UTF_8)).toString());
+		a.setPerson(patientLight);
+		entities.add(a);
 	}
 	
 }

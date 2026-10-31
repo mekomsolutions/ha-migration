@@ -1,5 +1,7 @@
 package net.mekomsolutions.ha.migration.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +13,7 @@ public class PatientIdentifier extends BaseEntity {
 	
 	@Getter
 	@Setter
+	@JsonIgnore
 	private String identifierTypeUuid;
 	
 	@Getter
