@@ -93,7 +93,7 @@ public class OffsetUtils {
 		Integer rowIndex = data != null ? data.getRowIndex() : null;
 		if (rowIndex == null) {
 			log.info("No last processed {} row index was found", type);
-		} else {
+		} else if (rowIndex > -1) {
 			log.info("Found last processed {} row index: {}", type, rowIndex);
 		}
 		
