@@ -1,6 +1,6 @@
 package net.mekomsolutions.ha.migration.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,17 +9,17 @@ public class PersonName extends BaseEntity {
 	
 	@Getter
 	@Setter
-	@JsonProperty("nombre")
+	@JsonSetter("nombre")
 	private String givenName;
 	
 	@Getter
 	@Setter
-	@JsonProperty("nombre_secundario")
+	@JsonSetter("nombre_secundario")
 	private String middleName;
 	
 	@Getter
 	@Setter
-	@JsonProperty("apellidos")
+	@JsonSetter("apellidos")
 	private String familyName;
 	
 	@Getter
