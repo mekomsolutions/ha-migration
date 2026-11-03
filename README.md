@@ -59,8 +59,8 @@ mvn clean install
 ```shell
 java -jar ha-migration-{VERSION}.jar --type=patient --file=patients.csv
 ```
-The type argument specifies the EntityTpe name, and the file argument specifies the filename of the CSV file to be 
-ingested.
+The type argument specifies the EntityTpe name, so to ingest a file containing patient demographic data, the value would 
+be set to `patient`, and the file argument specifies the filename of the CSV file to be ingested.
 
 > [!IMPORTANT]
 > When the application starts ingesting a file, it can't be edited until the entire file is processed.
@@ -240,34 +240,34 @@ concept.uuid.temperature=${CONCEPT_UUID_TEMPERATURE}
 
 ### Command-Line Arguments
 
-| Argument | Description | Example |
-| :--- | :--- | :--- |
-| `--type` | The Root `EntityType` enum name to ingest | `PATIENT`, `ENCOUNTER` |
-| `--file` | CSV file name located in `data.file.directory` | `patients.csv`, `encounters.csv` |
+| Argument | Description |
+| :--- | :--- |
+| `--type` | The Root `EntityType` enum name to ingest |
+| `--file` | CSV file name located in `data.file.directory` |
 
 ### Environment Variables
 
-| Property | Environment Variable | Description | Default / Example |
-| :--- | :--- | :--- | :--- |
-| `data.file.directory` | `DATA_FILE_DIRECTORY` | Directory containing source CSV files | `/path/to/csv/files` |
-| `data.time.zone` | `DATA_TIME_ZONE` | Time zone used for parsing date and time fields | `America/Guatemala`, `UTC` |
-| `batch.size` | `BATCH_SIZE` | Number of CSV rows processed and sent per JMS transaction batch | `50` |
-| `sync.source.id` | `SYNC_SOURCE_ID` | Unique identifier of this migration sender node in DB sync | `migration-node-1` |
-| `id.type.uuid.id` | `IDENTIFIER_UUID_ID` | UUID of the primary Patient Identifier Type | `05a29f94-c0ed-11e2-94be-8c13b969e334` |
-| `id.type.uuid.govt` | `IDENTIFIER_UUID_GOVT` | UUID of the government/national Patient Identifier Type (e.g., DPI) | `d9101211-1a3b-419b-ab20-e22cf640ebf3` |
-| `attribute.type.uuid.ethnicity` | `ATTRIBUTE_TYPE_UUID_ETHNICITY` | UUID of Person Attribute Type for ethnicity | `c7c64fb2-6f29-4b2a-bf33-289b4be121bb` |
-| `attribute.type.uuid.marital.status` | `ATTRIBUTE_TYPE_UUID_MARITAL_STATUS` | UUID of Person Attribute Type for marital status | `8d871f2a-c2cc-11de-8d13-0010c6dffd0f` |
-| `attribute.type.uuid.phone` | `ATTRIBUTE_TYPE_UUID_PHONE` | UUID of Person Attribute Type for telephone number | `14d4f066-15f5-102d-96e4-000c29c2a5d7` |
-| `attribute.type.uuid.birth.place` | `ATTRIBUTE_TYPE_UUID_BIRTH_PLACE` | UUID of Person Attribute Type for place of birth | `8d871afc-c2cc-11de-8d13-0010c6dffd0f` |
-| `attribute.type.uuid.spouse` | `ATTRIBUTE_TYPE_UUID_SPOUSE` | UUID of Person Attribute Type for spouse name | `a2cf6c41-86a4-4a4b-8414-bdc08e561955` |
-| `attribute.type.uuid.father` | `ATTRIBUTE_TYPE_UUID_FATHER` | UUID of Person Attribute Type for father name | `e3b5e434-2e21-4f11-8ecb-9d41b4e3f345` |
-| `attribute.type.uuid.mother` | `ATTRIBUTE_TYPE_UUID_MOTHER` | UUID of Person Attribute Type for mother name | `a85cb961-755c-42cb-b1ec-911e20ef93c5` |
-| `attribute.type.uuid.igss` | `ATTRIBUTE_TYPE_UUID_IGSS` | UUID of Person Attribute Type for IGSS (social security) number | `31343743-3432-3236-2d33-3132332d3434` |
-| `attribute.type.uuid.emergency.contact` | `ATTRIBUTE_TYPE_UUID_EMERGENCY_CONTACT` | UUID of Person Attribute Type for emergency contact name | `9d554a3e-c689-4e5a-8b89-a5e2f753ea12` |
-| `attribute.type.uuid.emergency.phone` | `ATTRIBUTE_TYPE_UUID_EMERGENCY_PHONE` | UUID of Person Attribute Type for emergency contact phone | `31b51e90-c247-4977-96a1-0cfdc093a5b0` |
-| `attribute.type.uuid.occupation` | `ATTRIBUTE_TYPE_UUID_OCCUPATION` | UUID of Person Attribute Type for occupation | `7c76251b-1f81-42db-be96-b333423f03b5` |
-| `spring.artemis.broker-url` | `MSG_BROKER_URL` | Apache ActiveMQ Artemis broker connection URL | `tcp://localhost:61616` |
-| `spring.artemis.user` | `MSG_BROKER_USER` | Apache ActiveMQ Artemis broker username | `admin` |
-| `spring.artemis.password` | `MSG_BROKER_PASSWORD` | Apache ActiveMQ Artemis broker password | `admin` |
-| `sync.queue.name` | `SYNC_QUEUE_NAME` | ActiveMQ Artemis queue name to publish DB sync messages | `openmrs.sync` |
+| Environment Variable | Description | Default Value |
+| :--- | :--- | :--- |
+| `DATA_FILE_DIRECTORY` | Directory containing source CSV files | |
+| `DATA_TIME_ZONE` | Time zone for datetime fields | |
+| `BATCH_SIZE` | Number of CSV rows processed and sent per JMS transaction batch | `50` |
+| `SYNC_SOURCE_ID` | Unique identifier of this migration sender node in DB sync | |
+| `IDENTIFIER_UUID_ID` | UUID of the primary Patient Identifier Type | |
+| `IDENTIFIER_UUID_GOVT` | UUID of the government Patient Identifier Type (e.g., DPI) | |
+| `ATTRIBUTE_TYPE_UUID_ETHNICITY` | UUID of Person Attribute Type for ethnicity | |
+| `ATTRIBUTE_TYPE_UUID_MARITAL_STATUS` | UUID of Person Attribute Type for marital status | |
+| `ATTRIBUTE_TYPE_UUID_PHONE` | UUID of Person Attribute Type for telephone number | |
+| `ATTRIBUTE_TYPE_UUID_BIRTH_PLACE` | UUID of Person Attribute Type for place of birth | |
+| `ATTRIBUTE_TYPE_UUID_SPOUSE` | UUID of Person Attribute Type for spouse name | |
+| `ATTRIBUTE_TYPE_UUID_FATHER` | UUID of Person Attribute Type for father name | |
+| `ATTRIBUTE_TYPE_UUID_MOTHER` | UUID of Person Attribute Type for mother name | |
+| `ATTRIBUTE_TYPE_UUID_IGSS` | UUID of Person Attribute Type for IGSS | |
+| `ATTRIBUTE_TYPE_UUID_EMERGENCY_CONTACT` | UUID of Person Attribute Type for emergency contact name | |
+| `ATTRIBUTE_TYPE_UUID_EMERGENCY_PHONE` | UUID of Person Attribute Type for emergency contact phone | |
+| `ATTRIBUTE_TYPE_UUID_OCCUPATION` | UUID of Person Attribute Type for occupation | |
+| `MSG_BROKER_URL` | Apache ActiveMQ Artemis broker connection URL | |
+| `MSG_BROKER_USER` | Apache ActiveMQ Artemis broker username | |
+| `MSG_BROKER_PASSWORD` | Apache ActiveMQ Artemis broker password | |
+| `SYNC_QUEUE_NAME` | ActiveMQ queue name to publish generated DB sync messages | |
 
