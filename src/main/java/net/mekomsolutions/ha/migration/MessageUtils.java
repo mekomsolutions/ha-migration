@@ -32,9 +32,12 @@ public class MessageUtils {
 	    Constants.SYNC_CLASS_NAME);
 	
 	public static JsonMapper getMapper() {
-		final SimpleModule module = new SimpleModule();
-		module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
-		mapper = JsonMapper.builder().addModule(module).build();
+		if (mapper == null) {
+			final SimpleModule module = new SimpleModule();
+			module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
+			mapper = JsonMapper.builder().addModule(module).build();
+		}
+		
 		return mapper;
 	}
 	
