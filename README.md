@@ -6,6 +6,14 @@ DB Sync Receiver. See [OpenMRS DB sync](https://github.com/mekomsolutions/openmr
 
 ---
 
+1. [Architecture Overview](#architecture-overview)
+2. [Build Requirements](#build-requirements)
+3. [Run Requirements](#run-requirements)
+4. [How To Build](#how-to-build)
+5. [How To Run Application](#how-to-run-application)
+6. [Developer Guide](#developer-guide)
+7. [Configuration Environment Variables](#configuration-environment-variables)
+
 ## Architecture Overview
 
 The migration pipeline operates through a modular ingestion and itemization lifecycle:
@@ -26,12 +34,36 @@ The migration pipeline operates through a modular ingestion and itemization life
    Batches of JSON messages are published to ArtemisMQ. The migration offset is saved in a `<entity_type>-offset.json` 
    file after each batch to support seamless resume capabilities.
 
----
+## Build Requirements
+- A unix operating system (Never been tested on windows)
+- [Apache Maven 3.6.0](http://maven.apache.org/install.html)
+- [OpenJDK 17](https://openjdk.java.net/install/)
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+## Run Requirements
+- A unix operating system (Never been tested on windows)
+- Java 17+
+
+## How To Build
+Run the command below,
+```
+mvn clean install
+```
+
+## How To Run Application
+- Prepare the values for required [environment variables](#configuration-environment-variables)
+- Run the application with the command below
+
+```shell
+java -jar ha-migration-{VERSION}.jar --type=patient --file=patients.csv
+```
+The type argument specifies the EntityTpe name, and the file argument specifies the filename of the CSV file to be 
+ingested.
 
 > [!IMPORTANT]
-When the application starts ingesting a file, it can't be edited until the entire file is processed.
+> When the application starts ingesting a file, it can't be edited until the entire file is processed.
 
-## How to update the code to ingest a file containing other Entity Types (Developer Guide)
+## Developer Guide
 
 To extend the application to ingest and itemize a file containing a new Root entity type (for example, Encounters 
 containing multiple Observations), follow the step-by-step guide below.
@@ -111,7 +143,7 @@ public class Obs extends BaseEntity {
 }
 ```
 
-*Key BaseEntity conventions:*
+**Key BaseEntity conventions:**
 - `uuid`: Primary UUID of the OpenMRS record.
 - `creatorUuid`: Light reference string formatted as `org.openmrs.eip.dbsync.entity.light.UserLight(<UUID>)`.
 - `dateCreated`: Creation timestamp (`LocalDateTime`).
@@ -175,13 +207,12 @@ public class EncounterItemizer extends BaseRowItemizer<EncounterData> {
 
 ### Step 5: Register the Enum in `EntityType`
 
-Add the new Root entity type to `EntityType` with its target class and estimated/maximum item count per row (used to 
-pre-size batch collections):
+Add the new Root entity type to `EntityType` enum with its target class and estimated/maximum item count per row (used 
+to pre-size batch collections):
 
 ```java
 public enum EntityType {
 
-    PATIENT(PatientData.class, 16),
     ENCOUNTER(EncounterData.class, 10);
     
 }
@@ -203,15 +234,7 @@ concept.uuid.temperature=${CONCEPT_UUID_TEMPERATURE}
 
 ---
 
-## Running the Migration
-
-Run the application using Spring Boot with the target `--type` and `--file` command-line arguments:
-
-```bash
-java -jar target/ha-migration-*.jar -type=ENCOUNTER --file=encounters.csv
-```
-
-### Key Configuration Parameters
+### Configuration Environment Variables
 
 | Property / Argument | Description | Default / Example |
 | :--- | :--- | :--- |
