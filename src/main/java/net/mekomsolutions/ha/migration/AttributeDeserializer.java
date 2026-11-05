@@ -21,13 +21,20 @@ public class AttributeDeserializer extends StdDeserializer<PersonAttribute> {
 	
 	private final String attributeTypeUuid;
 	
+	private final boolean isNumber;
+	
 	public AttributeDeserializer() {
-		this(null);
+		this(null, false);
 	}
 	
 	public AttributeDeserializer(String attributeTypeUuid) {
+		this(attributeTypeUuid, false);
+	}
+	
+	public AttributeDeserializer(String attributeTypeUuid, boolean isNumber) {
 		super(PersonAttribute.class);
 		this.attributeTypeUuid = attributeTypeUuid;
+		this.isNumber = isNumber;
 	}
 	
 	@Override
@@ -38,13 +45,23 @@ public class AttributeDeserializer extends StdDeserializer<PersonAttribute> {
 			env = Context.getBean(Environment.class);
 		}
 		
-		return new AttributeDeserializer(env.getProperty(propName));
+		return new AttributeDeserializer(env.getProperty(propName), annotation.isNumber());
 	}
 	
 	@Override
 	public PersonAttribute deserialize(JsonParser p, DeserializationContext ctxt) {
+		final String value = p.getText();
+		if (isNumber) {
+			try {
+				Double.parseDouble(value);
+			}
+			catch (NumberFormatException e) {
+				return null;
+			}
+		}
+		
 		PersonAttribute attribute = new PersonAttribute();
-		attribute.setValue(p.getText());
+		attribute.setValue(value);
 		attribute.setAttributeTypeUuid(attributeTypeUuid);
 		attribute.setPersonAttributeTypeUuid(Constants.SYNC_CLASS_ATTRIB_TYPE_LIGHT + "(" + attributeTypeUuid + ")");
 		attribute.setCreatorUuid(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")");

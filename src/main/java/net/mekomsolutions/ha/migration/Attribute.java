@@ -20,4 +20,11 @@ public @interface Attribute {
 	 */
 	String typePropertyName();
 	
+	/**
+	 * Specifies whether the attribute value is expected to be a number.
+	 *
+	 * @return {@code true} if the attribute value is a number; {@code false} otherwise.
+	 */
+	boolean isNumber() default false;
+	
 }
