@@ -70,8 +70,11 @@ public class PatientItemizer extends BaseRowItemizer<PatientData> {
 		addAttribute(data.getMother(), entities, patUuid, patientLight);
 		addAttribute(data.getIgss(), entities, patUuid, patientLight);
 		addAttribute(data.getEmergencyContact(), entities, patUuid, patientLight);
-		addAttribute(data.getEmergencyPhone(), entities, patUuid, patientLight);
 		addAttribute(data.getOccupation(), entities, patUuid, patientLight);
+		if (data.getEmergencyPhone() != null) {
+			addAttribute(data.getEmergencyPhone(), entities, patUuid, patientLight);
+		}
+		
 		return entities;
 	}
 	
