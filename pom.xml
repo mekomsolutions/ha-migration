@@ -26,6 +26,7 @@
 
         <!-- Other tools -->
         <lombokVersion>1.18.46</lombokVersion>
+        <testcontainersVersion>1.20.4</testcontainersVersion>
 
         <!-- Plugin Versions -->
         <impsortPluginVersion>1.12.0</impsortPluginVersion>
@@ -109,6 +110,24 @@
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy-agent</artifactId>
             <version>${byteBuddyVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${testcontainersVersion}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mariadb</artifactId>
+            <version>${testcontainersVersion}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainersVersion}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
