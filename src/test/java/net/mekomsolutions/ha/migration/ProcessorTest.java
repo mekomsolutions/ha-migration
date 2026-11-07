@@ -53,7 +53,7 @@ public class ProcessorTest {
 	@Container
 	public static GenericContainer<?> artemisContainer = new GenericContainer<>(
 	        DockerImageName.parse("apache/activemq-artemis:2.37.0-alpine")).withEnv("ARTEMIS_USER", USER)
-	                .withEnv("ARTEMIS_PASSWORD", "admin").withExposedPorts(PORT).waitingFor(Wait.forListeningPort());
+	        .withEnv("ARTEMIS_PASSWORD", "admin").withExposedPorts(PORT).waitingFor(Wait.forListeningPort());
 	
 	@DynamicPropertySource
 	static void registerProperties(DynamicPropertyRegistry registry) {
@@ -146,86 +146,77 @@ public class ProcessorTest {
 		
 		// Detailed verification of patient row 1 itemized entities
 		final String pat1Uuid = java.util.UUID.nameUUIDFromBytes("12".getBytes(UTF_8)).toString();
-		JsonNode patient1 = jsonNodes.get(0);
-		assertEquals(Constants.SYNC_CLASS_PATIENT, patient1.get("tableToSyncModelClass").asText());
-		assertEquals(pat1Uuid, patient1.get("model").get("uuid").asText());
-		assertEquals("M", patient1.get("model").get("gender").asText());
-		assertEquals("1985-08-15", patient1.get("model").get("birthdate").asText());
-		assertEquals("Unknown", patient1.get("model").get("allergyStatus").asText());
-		assertEquals(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")",
-		    patient1.get("model").get("creatorUuid").asText());
-		assertEquals(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")",
-		    patient1.get("model").get("patientCreatorUuid").asText());
-		assertNotNull(patient1.get("model").get("patientDateCreated").asText());
-		
-		JsonNode name1 = jsonNodes.get(1);
-		assertEquals(Constants.SYNC_CLASS_NAME, name1.get("tableToSyncModelClass").asText());
-		assertEquals("CARLOS", name1.get("model").get("givenName").asText());
-		assertEquals("EDUARDO", name1.get("model").get("middleName").asText());
-		assertEquals("LOPEZ PEREZ", name1.get("model").get("familyName").asText());
-		assertTrue(name1.get("model").get("preferred").asBoolean());
-		assertEquals(Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + pat1Uuid + ")",
-		    name1.get("model").get("personUuid").asText());
-		assertNotNull(name1.get("model").get("dateCreated").asText());
-		
-		JsonNode patientId1 = jsonNodes.get(2);
-		assertEquals(Constants.SYNC_CLASS_ID, patientId1.get("tableToSyncModelClass").asText());
-		assertEquals("12", patientId1.get("model").get("identifier").asText());
-		assertTrue(patientId1.get("model").get("preferred").asBoolean());
-		assertEquals(Constants.SYNC_CLASS_ID_LIGHT + "(type-uuid-1)",
-		    patientId1.get("model").get("patientIdentifierTypeUuid").asText());
-		assertEquals(Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + pat1Uuid + ")",
-		    patientId1.get("model").get("patientUuid").asText());
-		assertNotNull(patientId1.get("model").get("dateCreated").asText());
-		
-		JsonNode govtId1 = jsonNodes.get(3);
-		assertEquals(Constants.SYNC_CLASS_ID, govtId1.get("tableToSyncModelClass").asText());
-		assertEquals("2589631470101", govtId1.get("model").get("identifier").asText());
-		assertFalse(govtId1.get("model").get("preferred").asBoolean());
-		assertEquals(Constants.SYNC_CLASS_ID_LIGHT + "(type-uuid-2)",
-		    govtId1.get("model").get("patientIdentifierTypeUuid").asText());
-		assertEquals(Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + pat1Uuid + ")",
-		    govtId1.get("model").get("patientUuid").asText());
-		assertNotNull(govtId1.get("model").get("dateCreated").asText());
-		
-		JsonNode address1 = jsonNodes.get(4);
-		assertEquals(Constants.SYNC_CLASS_ADDRESS, address1.get("tableToSyncModelClass").asText());
-		assertEquals("GUATEMALA", address1.get("model").get("address").get("country").asText());
-		assertEquals("GUATEMALA", address1.get("model").get("address").get("stateProvince").asText());
-		assertEquals("CIUDAD DE GUATEMALA", address1.get("model").get("address").get("cityVillage").asText());
-		assertEquals("CALLE REAL 1-23", address1.get("model").get("address").get("address1").asText());
-		assertEquals("ZONA 1", address1.get("model").get("address").get("address2").asText());
-		assertTrue(address1.get("model").get("preferred").asBoolean());
-		assertEquals(Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + pat1Uuid + ")",
-		    address1.get("model").get("personUuid").asText());
-		assertNotNull(address1.get("model").get("dateCreated").asText());
-		
-		JsonNode ethnicity1 = jsonNodes.get(5);
-		assertEquals(Constants.SYNC_CLASS_ATTRIBUTE, ethnicity1.get("tableToSyncModelClass").asText());
-		assertEquals("LADINO", ethnicity1.get("model").get("value").asText());
-		assertEquals(Constants.SYNC_CLASS_ATTRIB_TYPE_LIGHT + "(attr-type-ethnicity)",
-		    ethnicity1.get("model").get("personAttributeTypeUuid").asText());
-		assertEquals(Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + pat1Uuid + ")",
-		    ethnicity1.get("model").get("personUuid").asText());
-		assertNotNull(ethnicity1.get("model").get("dateCreated").asText());
+		verifyPatient(jsonNodes.get(0), pat1Uuid, "M", "1985-08-15");
+		verifyName(jsonNodes.get(1), pat1Uuid, "CARLOS", "EDUARDO", "LOPEZ PEREZ");
+		verifyIdentifier(jsonNodes.get(2), pat1Uuid, "type-uuid-1", "12", true);
+		verifyIdentifier(jsonNodes.get(3), pat1Uuid, "type-uuid-2", "2589631470101", false);
+		verifyAddress(jsonNodes.get(4), pat1Uuid, "GUATEMALA", "GUATEMALA", "CIUDAD DE GUATEMALA", "CALLE REAL 1-23",
+		    "ZONA 1");
+		verifyAttribute(jsonNodes.get(5), pat1Uuid, "attr-type-ethnicity", "LADINO");
 		
 		// Verify patient row 2 entities
 		final String pat2Uuid = java.util.UUID.nameUUIDFromBytes("85".getBytes(UTF_8)).toString();
-		JsonNode patient2 = jsonNodes.get(16);
-		assertEquals(Constants.SYNC_CLASS_PATIENT, patient2.get("tableToSyncModelClass").asText());
-		assertEquals(pat2Uuid, patient2.get("model").get("uuid").asText());
-		assertEquals("F", patient2.get("model").get("gender").asText());
-		assertEquals("1992-12-03", patient2.get("model").get("birthdate").asText());
-		assertEquals("Unknown", patient2.get("model").get("allergyStatus").asText());
-		assertNotNull(patient2.get("model").get("patientDateCreated").asText());
-		
-		JsonNode name2 = jsonNodes.get(17);
-		assertEquals(Constants.SYNC_CLASS_NAME, name2.get("tableToSyncModelClass").asText());
-		assertEquals("MARIA", name2.get("model").get("givenName").asText());
-		assertEquals("", name2.get("model").get("middleName").asText());
-		assertEquals("GOMEZ SANTOS", name2.get("model").get("familyName").asText());
-		assertEquals(Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + pat2Uuid + ")",
-		    name2.get("model").get("personUuid").asText());
+		verifyPatient(jsonNodes.get(16), pat2Uuid, "F", "1992-12-03");
+		verifyName(jsonNodes.get(17), pat2Uuid, "MARIA", "", "GOMEZ SANTOS");
 	}
 	
+	private void verifyPatient(JsonNode node, String uuid, String gender, String birthdate) {
+		assertEquals(Constants.SYNC_CLASS_PATIENT, node.get("tableToSyncModelClass").asText());
+		assertEquals(uuid, node.get("model").get("uuid").asText());
+		assertEquals(gender, node.get("model").get("gender").asText());
+		assertEquals(birthdate, node.get("model").get("birthdate").asText());
+		assertEquals("Unknown", node.get("model").get("allergyStatus").asText());
+		assertEquals(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")",
+		    node.get("model").get("creatorUuid").asText());
+		assertEquals(Constants.SYNC_CLASS_USER_LIGHT + "(" + Constants.DAEMON_USER_UUID + ")",
+		    node.get("model").get("patientCreatorUuid").asText());
+		assertNotNull(node.get("model").get("patientDateCreated").asText());
+	}
+	
+	private void verifyName(JsonNode node, String personUuid, String givenName, String middleName, String familyName) {
+		assertEquals(Constants.SYNC_CLASS_NAME, node.get("tableToSyncModelClass").asText());
+		assertEquals(givenName, node.get("model").get("givenName").asText());
+		assertEquals(middleName, node.get("model").get("middleName").asText());
+		assertEquals(familyName, node.get("model").get("familyName").asText());
+		assertTrue(node.get("model").get("preferred").asBoolean());
+		assertEquals(Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + personUuid + ")",
+		    node.get("model").get("personUuid").asText());
+		assertNotNull(node.get("model").get("dateCreated").asText());
+	}
+	
+	private void verifyIdentifier(JsonNode node, String patientUuid, String idTypeUuid, String identifier,
+	                              boolean preferred) {
+		assertEquals(Constants.SYNC_CLASS_ID, node.get("tableToSyncModelClass").asText());
+		assertEquals(identifier, node.get("model").get("identifier").asText());
+		assertEquals(preferred, node.get("model").get("preferred").asBoolean());
+		assertEquals(Constants.SYNC_CLASS_ID_LIGHT + "(" + idTypeUuid + ")",
+		    node.get("model").get("patientIdentifierTypeUuid").asText());
+		assertEquals(Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + patientUuid + ")",
+		    node.get("model").get("patientUuid").asText());
+		assertNotNull(node.get("model").get("dateCreated").asText());
+	}
+	
+	private void verifyAddress(JsonNode node, String personUuid, String country, String stateProvince, String cityVillage,
+	                           String address1, String address2) {
+		assertEquals(Constants.SYNC_CLASS_ADDRESS, node.get("tableToSyncModelClass").asText());
+		assertEquals(country, node.get("model").get("address").get("country").asText());
+		assertEquals(stateProvince, node.get("model").get("address").get("stateProvince").asText());
+		assertEquals(cityVillage, node.get("model").get("address").get("cityVillage").asText());
+		assertEquals(address1, node.get("model").get("address").get("address1").asText());
+		assertEquals(address2, node.get("model").get("address").get("address2").asText());
+		assertTrue(node.get("model").get("preferred").asBoolean());
+		assertEquals(Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + personUuid + ")",
+		    node.get("model").get("personUuid").asText());
+		assertNotNull(node.get("model").get("dateCreated").asText());
+	}
+	
+	private void verifyAttribute(JsonNode node, String personUuid, String attributeTypeUuid, String value) {
+		assertEquals(Constants.SYNC_CLASS_ATTRIBUTE, node.get("tableToSyncModelClass").asText());
+		assertEquals(value, node.get("model").get("value").asText());
+		assertEquals(Constants.SYNC_CLASS_ATTRIB_TYPE_LIGHT + "(" + attributeTypeUuid + ")",
+		    node.get("model").get("personAttributeTypeUuid").asText());
+		assertEquals(Constants.SYNC_CLASS_PATIENT_LIGHT + "(" + personUuid + ")",
+		    node.get("model").get("personUuid").asText());
+		assertNotNull(node.get("model").get("dateCreated").asText());
+	}
 }
