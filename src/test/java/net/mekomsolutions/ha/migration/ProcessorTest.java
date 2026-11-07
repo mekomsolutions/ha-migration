@@ -53,7 +53,7 @@ public class ProcessorTest {
 	@Container
 	public static GenericContainer<?> artemisContainer = new GenericContainer<>(
 	        DockerImageName.parse("apache/activemq-artemis:2.37.0-alpine")).withEnv("ARTEMIS_USER", USER)
-	        .withEnv("ARTEMIS_PASSWORD", "admin").withExposedPorts(PORT).waitingFor(Wait.forListeningPort());
+	                .withEnv("ARTEMIS_PASSWORD", "admin").withExposedPorts(PORT).waitingFor(Wait.forListeningPort());
 	
 	@DynamicPropertySource
 	static void registerProperties(DynamicPropertyRegistry registry) {
@@ -153,11 +153,35 @@ public class ProcessorTest {
 		verifyAddress(jsonNodes.get(4), pat1Uuid, "GUATEMALA", "GUATEMALA", "CIUDAD DE GUATEMALA", "CALLE REAL 1-23",
 		    "ZONA 1");
 		verifyAttribute(jsonNodes.get(5), pat1Uuid, "attr-type-ethnicity", "LADINO");
+		verifyAttribute(jsonNodes.get(6), pat1Uuid, "attr-type-marital-status", "SOLTERO");
+		verifyAttribute(jsonNodes.get(7), pat1Uuid, "attr-type-phone", "55512345");
+		verifyAttribute(jsonNodes.get(8), pat1Uuid, "attr-type-birth-place", "GUATEMALA");
+		verifyAttribute(jsonNodes.get(9), pat1Uuid, "attr-type-spouse", "PEDRO MORALES");
+		verifyAttribute(jsonNodes.get(10), pat1Uuid, "attr-type-father", "JUAN LOPEZ");
+		verifyAttribute(jsonNodes.get(11), pat1Uuid, "attr-type-mother", "MARIA PEREZ");
+		verifyAttribute(jsonNodes.get(12), pat1Uuid, "attr-type-igss", "Si");
+		verifyAttribute(jsonNodes.get(13), pat1Uuid, "attr-type-emergency-contact", "JUAN LOPEZ");
+		verifyAttribute(jsonNodes.get(14), pat1Uuid, "attr-type-occupation", "COMERCIANTE");
+		verifyAttribute(jsonNodes.get(15), pat1Uuid, "attr-type-emergency-phone", "55598765");
 		
 		// Verify patient row 2 entities
 		final String pat2Uuid = java.util.UUID.nameUUIDFromBytes("85".getBytes(UTF_8)).toString();
 		verifyPatient(jsonNodes.get(16), pat2Uuid, "F", "1992-12-03");
 		verifyName(jsonNodes.get(17), pat2Uuid, "MARIA", "", "GOMEZ SANTOS");
+		verifyIdentifier(jsonNodes.get(18), pat2Uuid, "type-uuid-1", "85", true);
+		verifyIdentifier(jsonNodes.get(19), pat2Uuid, "type-uuid-2", "1478523690202", false);
+		verifyAddress(jsonNodes.get(20), pat2Uuid, "GUATEMALA", "QUETZALTENANGO", "QUETZALTENANGO", "", "CANTON CENTRO");
+		verifyAttribute(jsonNodes.get(21), pat2Uuid, "attr-type-ethnicity", "MAYA");
+		verifyAttribute(jsonNodes.get(22), pat2Uuid, "attr-type-marital-status", "CASADO");
+		verifyAttribute(jsonNodes.get(23), pat2Uuid, "attr-type-phone", "44456789");
+		verifyAttribute(jsonNodes.get(24), pat2Uuid, "attr-type-birth-place", "QUETZALTENANGO");
+		verifyAttribute(jsonNodes.get(25), pat2Uuid, "attr-type-spouse", "");
+		verifyAttribute(jsonNodes.get(26), pat2Uuid, "attr-type-father", "JOSE GOMEZ");
+		verifyAttribute(jsonNodes.get(27), pat2Uuid, "attr-type-mother", "ANA SANTOS");
+		verifyAttribute(jsonNodes.get(28), pat2Uuid, "attr-type-igss", "No");
+		verifyAttribute(jsonNodes.get(29), pat2Uuid, "attr-type-emergency-contact", "PEDRO MORALES");
+		verifyAttribute(jsonNodes.get(30), pat2Uuid, "attr-type-occupation", "MAESTRA");
+		verifyAttribute(jsonNodes.get(31), pat2Uuid, "attr-type-emergency-phone", "SE IGNORA");
 	}
 	
 	private void verifyPatient(JsonNode node, String uuid, String gender, String birthdate) {
