@@ -57,6 +57,7 @@ public class ProcessorTest {
 	
 	@DynamicPropertySource
 	static void registerProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.jms.cache.enabled", () -> false);
 		registry.add("spring.artemis.broker-url",
 		    () -> "tcp://" + artemisContainer.getHost() + ":" + artemisContainer.getMappedPort(PORT));
 		registry.add("spring.artemis.user", () -> USER);
