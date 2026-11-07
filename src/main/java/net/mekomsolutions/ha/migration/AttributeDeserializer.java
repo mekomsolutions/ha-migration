@@ -17,8 +17,6 @@ import tools.jackson.databind.deser.std.StdDeserializer;
  */
 public class AttributeDeserializer extends StdDeserializer<PersonAttribute> {
 	
-	private static Environment env;
-	
 	private final String attributeTypeUuid;
 	
 	private final boolean isNumber;
@@ -41,11 +39,9 @@ public class AttributeDeserializer extends StdDeserializer<PersonAttribute> {
 	public ValueDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) {
 		Attribute annotation = property.getAnnotation(Attribute.class);
 		final String propName = annotation.typePropertyName();
-		if (env == null) {
-			env = Context.getBean(Environment.class);
-		}
-		
-		return new AttributeDeserializer(env.getProperty(propName), annotation.isNumber());
+		final Environment env = Context.getBean(Environment.class);
+		final String resolvedTypeUuid = env != null ? env.getProperty(propName) : null;
+		return new AttributeDeserializer(resolvedTypeUuid, annotation.isNumber());
 	}
 	
 	@Override
