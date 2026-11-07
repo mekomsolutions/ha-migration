@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
+import org.springframework.core.env.Environment;
 import org.springframework.util.DigestUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,8 @@ public class OffsetUtils {
 	 */
 	private static Path getOffsetPath(String fileName) {
 		if (offsetPath == null) {
-			offsetPath = FileUtils.get(fileName + Constants.OFFSET_FILE_SUFFIX);
+			final String dir = Context.getBean(Environment.class).getProperty(Constants.PROP_OFFSET_FILE_DIR);
+			offsetPath = FileUtils.get(dir, fileName + Constants.OFFSET_FILE_SUFFIX);
 			log.info("{} offset file -> {}", fileName, offsetPath);
 		}
 		
@@ -143,6 +145,7 @@ public class OffsetUtils {
 		Path path = getOffsetPath(type.name());
 		if (!FileUtils.exists(path)) {
 			log.info("No {} offset file found to delete", type);
+			offsetPath = null;
 			return;
 		}
 		
@@ -153,6 +156,9 @@ public class OffsetUtils {
 		}
 		catch (IOException e) {
 			log.error("Failed to delete " + type + " offset file", e);
+		}
+		finally {
+			offsetPath = null;
 		}
 	}
 	

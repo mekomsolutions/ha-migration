@@ -250,6 +250,7 @@ concept.uuid.temperature=${CONCEPT_UUID_TEMPERATURE}
 | Environment Variable | Description | Default Value |
 | :--- | :--- | :--- |
 | `DATA_FILE_DIRECTORY` | Directory containing source CSV files | |
+| `OFFSET_FILE_DIRECTORY` | Directory for storing offset files | |
 | `DATA_TIME_ZONE` | Time zone for datetime fields | |
 | `BATCH_SIZE` | Number of CSV rows processed and sent per JMS transaction batch | `50` |
 | `SYNC_SOURCE_ID` | Unique identifier of this migration sender node in DB sync | |

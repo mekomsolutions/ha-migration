@@ -8,6 +8,8 @@ public class Constants {
 	
 	public final static String PROP_DATA_FILE_DIR = "data.file.directory";
 	
+	public final static String PROP_OFFSET_FILE_DIR = "offset.file.directory";
+	
 	public final static String PROP_TIME_ZONE = "data.time.zone";
 	
 	public final static String PROP_BATCH_SIZE = "batch.size";
@@ -52,15 +54,17 @@ public class Constants {
 	
 	public final static String SYNC_PKG = "org.openmrs.eip.dbsync.";
 	
-	public final static String SYNC_CLASS_PATIENT = SYNC_PKG + "model.PatientModel";
+	public final static String SYNC_MODEL_PKG = SYNC_PKG + "model.";
 	
-	public final static String SYNC_CLASS_ID = SYNC_PKG + "model.PatientIdentifierModel";
+	public final static String SYNC_CLASS_PATIENT = SYNC_MODEL_PKG + "PatientModel";
 	
-	public final static String SYNC_CLASS_ADDRESS = SYNC_PKG + "model.PersonAddressModel";
+	public final static String SYNC_CLASS_ID = SYNC_MODEL_PKG + "PatientIdentifierModel";
 	
-	public final static String SYNC_CLASS_ATTRIBUTE = SYNC_PKG + "model.PersonAttributeModel";
+	public final static String SYNC_CLASS_ADDRESS = SYNC_MODEL_PKG + "PersonAddressModel";
 	
-	public final static String SYNC_CLASS_NAME = SYNC_PKG + "model.PersonNameModel";
+	public final static String SYNC_CLASS_ATTRIBUTE = SYNC_MODEL_PKG + "PersonAttributeModel";
+	
+	public final static String SYNC_CLASS_NAME = SYNC_MODEL_PKG + "PersonNameModel";
 	
 	public final static String SYNC_CLASS_PATIENT_LIGHT = SYNC_PKG + "entity.light.PatientLight";
 	

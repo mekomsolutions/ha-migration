@@ -13,6 +13,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @SpringBootTest(classes = { TestConfig.class })
 @TestExecutionListeners(DependencyInjectionTestExecutionListener.class)
 @TestPropertySource(properties = Constants.PROP_DATA_FILE_DIR + "=")
+@TestPropertySource(properties = Constants.PROP_OFFSET_FILE_DIR + "=")
 @TestPropertySource(properties = Constants.PROP_BATCH_SIZE + "=")
 @TestPropertySource(properties = Constants.PROP_SYNC_SOURCE_ID + "=")
 @TestPropertySource(properties = Constants.PROP_TIME_ZONE + "=GMT+3")

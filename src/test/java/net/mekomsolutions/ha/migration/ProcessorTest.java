@@ -7,10 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -45,10 +47,13 @@ public class ProcessorTest {
 	
 	private static final int PORT = 61616;
 	
+	@TempDir
+	static File tempDir;
+	
 	@Container
 	public static GenericContainer<?> artemisContainer = new GenericContainer<>(
 	        DockerImageName.parse("apache/activemq-artemis:2.37.0-alpine")).withEnv("ARTEMIS_USER", USER)
-	        .withEnv("ARTEMIS_PASSWORD", "admin").withExposedPorts(PORT).waitingFor(Wait.forListeningPort());
+	                .withEnv("ARTEMIS_PASSWORD", "admin").withExposedPorts(PORT).waitingFor(Wait.forListeningPort());
 	
 	@DynamicPropertySource
 	static void registerProperties(DynamicPropertyRegistry registry) {
@@ -59,6 +64,7 @@ public class ProcessorTest {
 		registry.add("spring.artemis.mode", () -> "native");
 		
 		registry.add(Constants.PROP_DATA_FILE_DIR, () -> "src/test/resources");
+		registry.add(Constants.PROP_OFFSET_FILE_DIR, () -> tempDir.getAbsolutePath());
 		registry.add(Constants.ARG_ENTITY_TYPE, () -> "PATIENT");
 		registry.add(Constants.ARG_FILE, () -> "patients.csv");
 		registry.add(Constants.PROP_BATCH_SIZE, () -> 100);
