@@ -14,9 +14,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
@@ -34,12 +35,31 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
 @Testcontainers
-@SpringBootTest(classes = TestProcessorConfig.class)
-public class ProcessorTest {
+@Import(TestProcessorConfig.class)
+@TestPropertySource(properties = Constants.PROP_DATA_FILE_DIR + "=src/test/resources")
+@TestPropertySource(properties = Constants.PROP_OFFSET_FILE_DIR + "=")
+@TestPropertySource(properties = Constants.PROP_BATCH_SIZE + "=100")
+@TestPropertySource(properties = Constants.PROP_SYNC_QUEUE_NAME + "=" + ProcessorTest.QUEUE_NAME)
+@TestPropertySource(properties = Constants.PROP_SYNC_SOURCE_ID + "=" + ProcessorTest.SOURCE_ID)
+@TestPropertySource(properties = Constants.PROP_TIME_ZONE + "=GMT+3")
+@TestPropertySource(properties = Constants.PROP_ID_TYPE_UUID_ID + "=type-uuid-1")
+@TestPropertySource(properties = Constants.PROP_ID_TYPE_UUID_GOVT + "=type-uuid-2")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_ETHNICITY + "=attr-type-ethnicity")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_MARITAL_STATUS + "=attr-type-marital-status")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_PHONE + "=attr-type-phone")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_BIRTH_PLACE + "=attr-type-birth-place")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_SPOUSE + "=attr-type-spouse")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_FATHER + "=attr-type-father")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_MOTHER + "=attr-type-mother")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_IGSS + "=attr-type-igss")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_EMERGENCY_CONTACT + "=attr-type-emergency-contact")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_EMERGENCY_PHONE + "=attr-type-emergency-phone")
+@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_OCCUPATION + "=attr-type-occupation")
+public class ProcessorTest extends BaseContextTest {
 	
-	private static final String QUEUE_NAME = "openmrs.sync.test";
+	protected static final String QUEUE_NAME = "openmrs.sync.test";
 	
-	private static final String SOURCE_ID = "test-source-id";
+	protected static final String SOURCE_ID = "test-source-id";
 	
 	private static final String USER = "admin";
 	
@@ -53,7 +73,7 @@ public class ProcessorTest {
 	@Container
 	public static GenericContainer<?> artemisContainer = new GenericContainer<>(
 	        DockerImageName.parse("apache/activemq-artemis:2.37.0-alpine")).withEnv("ARTEMIS_USER", USER)
-	                .withEnv("ARTEMIS_PASSWORD", "admin").withExposedPorts(PORT).waitingFor(Wait.forListeningPort());
+	        .withEnv("ARTEMIS_PASSWORD", "admin").withExposedPorts(PORT).waitingFor(Wait.forListeningPort());
 	
 	@DynamicPropertySource
 	static void registerProperties(DynamicPropertyRegistry registry) {
@@ -64,28 +84,9 @@ public class ProcessorTest {
 		registry.add("spring.artemis.password", () -> PASSWORD);
 		registry.add("spring.artemis.mode", () -> "native");
 		
-		registry.add(Constants.PROP_DATA_FILE_DIR, () -> "src/test/resources");
 		registry.add(Constants.PROP_OFFSET_FILE_DIR, () -> tempDir.getAbsolutePath());
 		registry.add(Constants.ARG_ENTITY_TYPE, () -> "PATIENT");
 		registry.add(Constants.ARG_FILE, () -> "patients.csv");
-		registry.add(Constants.PROP_BATCH_SIZE, () -> 100);
-		registry.add(Constants.PROP_SYNC_SOURCE_ID, () -> SOURCE_ID);
-		registry.add(Constants.PROP_SYNC_QUEUE_NAME, () -> QUEUE_NAME);
-		registry.add(Constants.PROP_TIME_ZONE, () -> "GMT+3");
-		
-		registry.add(Constants.PROP_ID_TYPE_UUID_ID, () -> "type-uuid-1");
-		registry.add(Constants.PROP_ID_TYPE_UUID_GOVT, () -> "type-uuid-2");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_ETHNICITY, () -> "attr-type-ethnicity");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_MARITAL_STATUS, () -> "attr-type-marital-status");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_PHONE, () -> "attr-type-phone");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_BIRTH_PLACE, () -> "attr-type-birth-place");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_SPOUSE, () -> "attr-type-spouse");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_FATHER, () -> "attr-type-father");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_MOTHER, () -> "attr-type-mother");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_IGSS, () -> "attr-type-igss");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_EMERGENCY_CONTACT, () -> "attr-type-emergency-contact");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_EMERGENCY_PHONE, () -> "attr-type-emergency-phone");
-		registry.add(Constants.PROP_ATTR_TYPE_UUID_OCCUPATION, () -> "attr-type-occupation");
 	}
 	
 	@Autowired
