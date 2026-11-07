@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
@@ -36,25 +35,6 @@ import tools.jackson.databind.json.JsonMapper;
 
 @Testcontainers
 @Import(TestProcessorConfig.class)
-@TestPropertySource(properties = Constants.PROP_DATA_FILE_DIR + "=src/test/resources")
-@TestPropertySource(properties = Constants.PROP_OFFSET_FILE_DIR + "=")
-@TestPropertySource(properties = Constants.PROP_BATCH_SIZE + "=100")
-@TestPropertySource(properties = Constants.PROP_SYNC_QUEUE_NAME + "=" + ProcessorTest.QUEUE_NAME)
-@TestPropertySource(properties = Constants.PROP_SYNC_SOURCE_ID + "=" + ProcessorTest.SOURCE_ID)
-@TestPropertySource(properties = Constants.PROP_TIME_ZONE + "=GMT+3")
-@TestPropertySource(properties = Constants.PROP_ID_TYPE_UUID_ID + "=type-uuid-1")
-@TestPropertySource(properties = Constants.PROP_ID_TYPE_UUID_GOVT + "=type-uuid-2")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_ETHNICITY + "=attr-type-ethnicity")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_MARITAL_STATUS + "=attr-type-marital-status")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_PHONE + "=attr-type-phone")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_BIRTH_PLACE + "=attr-type-birth-place")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_SPOUSE + "=attr-type-spouse")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_FATHER + "=attr-type-father")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_MOTHER + "=attr-type-mother")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_IGSS + "=attr-type-igss")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_EMERGENCY_CONTACT + "=attr-type-emergency-contact")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_EMERGENCY_PHONE + "=attr-type-emergency-phone")
-@TestPropertySource(properties = Constants.PROP_ATTR_TYPE_UUID_OCCUPATION + "=attr-type-occupation")
 public class ProcessorTest extends BaseContextTest {
 	
 	protected static final String QUEUE_NAME = "openmrs.sync.test";
@@ -73,7 +53,7 @@ public class ProcessorTest extends BaseContextTest {
 	@Container
 	public static GenericContainer<?> artemisContainer = new GenericContainer<>(
 	        DockerImageName.parse("apache/activemq-artemis:2.37.0-alpine")).withEnv("ARTEMIS_USER", USER)
-	        .withEnv("ARTEMIS_PASSWORD", "admin").withExposedPorts(PORT).waitingFor(Wait.forListeningPort());
+	                .withEnv("ARTEMIS_PASSWORD", "admin").withExposedPorts(PORT).waitingFor(Wait.forListeningPort());
 	
 	@DynamicPropertySource
 	static void registerProperties(DynamicPropertyRegistry registry) {
